@@ -22,12 +22,32 @@
 
 /* ── 1. TOKENS ─────────────────────────────────────────────── */
 :root {
-  /* Background — cream with a faint warmth */
+  /* Light theme — cream paper */
   --paper:    #f6f1e8;
   --paper-2:  #ece4d4;
   --ink:      #181614;
   --ink-2:    #5b554d;
   --rule:     #d8d0bd;
+  --blob-blend: multiply;
+  --blob-opacity: 0.55;
+  --grain-blend: multiply;
+  --grain-opacity: 0.28;
+  --glow-blend: multiply;
+}
+
+/* Dark theme — toggled via [data-theme="dark"] on <html> */
+[data-theme="dark"] {
+  --paper:    #0e0b08;
+  --paper-2:  #1a1410;
+  --ink:      #f6f1e8;
+  --ink-2:    #9a9080;
+  --rule:     #2a2218;
+  --blob-blend: screen;
+  --blob-opacity: 0.45;
+  --grain-blend: overlay;
+  --grain-opacity: 0.18;
+  --glow-blend: screen;
+}
 
   /* Bold palette — used hard, not subtly */
   --c-magenta: #ff2e63;
@@ -74,6 +94,7 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
   position: relative;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -135,7 +156,7 @@ p { margin: 0; }
   opacity: 0;
   transform: translate(var(--mx, 50vw), var(--my, 50vh));
   transition: opacity 0.4s ease;
-  mix-blend-mode: multiply;
+  mix-blend-mode: var(--glow-blend);
   will-change: transform;
 }
 .cursor-glow.is-on { opacity: 1; }
@@ -154,9 +175,10 @@ p { margin: 0; }
   height: 60vmin;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.55;
-  mix-blend-mode: multiply;
+  opacity: var(--blob-opacity);
+  mix-blend-mode: var(--blob-blend);
   will-change: transform;
+  transition: opacity 0.4s ease;
 }
 .blob--1 {
   background: var(--c-magenta);
@@ -203,8 +225,8 @@ p { margin: 0; }
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.28;
-  mix-blend-mode: multiply;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
   background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'>\
 <filter id='n'>\
@@ -218,6 +240,21 @@ p { margin: 0; }
 
 /* All content sits above the FX layers */
 main, .topbar, .footer { position: relative; z-index: 3; }
+
+/* Scroll progress bar — fixed at very top, fills L→R as you scroll. */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--c-magenta), var(--c-orange), var(--c-yellow), var(--c-blue));
+  background-size: 200% 100%;
+  z-index: 100;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+  animation: gradient-shift 6s ease-in-out infinite alternate;
+}
 
 /* ── 5. LAYOUT ─────────────────────────────────────────────── */
 .section {
@@ -277,7 +314,35 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   color: transparent;
 }
 
-.topnav { display: flex; gap: 1.4rem; }
+.topnav { display: flex; gap: 1.4rem; align-items: center; }
+
+/* Theme toggle button — sun/moon morph, lives at the end of the topnav. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  cursor: pointer;
+  padding: 0;
+  color: var(--ink);
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+.theme-toggle:hover {
+  background: var(--c-yellow);
+  transform: rotate(20deg);
+}
+[data-theme="dark"] .theme-toggle:hover {
+  background: var(--c-violet);
+  color: var(--paper);
+}
+.theme-toggle svg { width: 16px; height: 16px; }
+.theme-toggle .icon-sun  { display: none; }
+.theme-toggle .icon-moon { display: block; }
+[data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 .topnav a {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -333,14 +398,15 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-  color: var(--ink);
+  /* Pinned dark ink because the background is always yellow. */
+  color: #181614;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   padding: 0.35rem 0.8rem;
   width: max-content;
   background: var(--c-yellow);
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid #181614;
   border-radius: 999px;
   box-shadow: 4px 4px 0 var(--ink);
 }
@@ -354,6 +420,9 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   letter-spacing: -0.03em;
   align-self: end;
   font-variation-settings: "opsz" 144, "SOFT" 100;
+  /* JS updates --py during scroll for a subtle parallax */
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
 }
 .hero__name .line {
   display: block;
@@ -564,6 +633,7 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   display: flex;
   flex-direction: column;
   gap: clamp(2rem, 5vw, 3.5rem);
+  perspective: 1200px;
 }
 .project {
   display: grid;
@@ -575,10 +645,17 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   border: 2px solid var(--ink);
   border-radius: 18px;
   box-shadow: 8px 8px 0 var(--ink);
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
-              box-shadow 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+              box-shadow 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
+  /* JS sets --tx and --ty when hovering for a subtle 3D tilt. */
+  transform:
+    perspective(1200px)
+    rotateX(var(--ty, 0deg))
+    rotateY(var(--tx, 0deg))
+    translate3d(0, 0, 0);
 }
 .project::before {
   content: "";
@@ -591,20 +668,17 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.project:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 12px 12px 0 var(--ink);
-}
+.project:hover { box-shadow: 14px 14px 0 var(--ink); }
 .project:nth-child(1) { box-shadow: 8px 8px 0 var(--c-magenta); }
-.project:nth-child(1):hover { box-shadow: 12px 12px 0 var(--c-magenta); }
+.project:nth-child(1):hover { box-shadow: 14px 14px 0 var(--c-magenta); }
 .project:nth-child(2) { box-shadow: 8px 8px 0 var(--c-blue); }
-.project:nth-child(2):hover { box-shadow: 12px 12px 0 var(--c-blue); }
+.project:nth-child(2):hover { box-shadow: 14px 14px 0 var(--c-blue); }
 .project:nth-child(3) { box-shadow: 8px 8px 0 var(--c-orange); }
-.project:nth-child(3):hover { box-shadow: 12px 12px 0 var(--c-orange); }
+.project:nth-child(3):hover { box-shadow: 14px 14px 0 var(--c-orange); }
 .project:nth-child(4) { box-shadow: 8px 8px 0 var(--c-violet); }
-.project:nth-child(4):hover { box-shadow: 12px 12px 0 var(--c-violet); }
+.project:nth-child(4):hover { box-shadow: 14px 14px 0 var(--c-violet); }
 .project:nth-child(5) { box-shadow: 8px 8px 0 var(--c-lime); }
-.project:nth-child(5):hover { box-shadow: 12px 12px 0 var(--c-lime); }
+.project:nth-child(5):hover { box-shadow: 14px 14px 0 var(--c-lime); }
 
 .project__index {
   font-family: var(--font-mono);
@@ -656,9 +730,10 @@ main, .topbar, .footer { position: relative; z-index: 3; }
 .project__meta li {
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  color: var(--ink);
+  /* Pinned dark — background is always yellow. */
+  color: #181614;
   padding: 0.25rem 0.6rem;
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid #181614;
   border-radius: 999px;
   background: var(--c-yellow);
 }
@@ -811,8 +886,17 @@ main, .topbar, .footer { position: relative; z-index: 3; }
 
 /* ── 15. RESPONSIVE ────────────────────────────────────────── */
 @media (max-width: 759px) {
-  .section__head { margin-bottom: 1.8rem; }
-  .section__head .label { display: inline-block; margin-bottom: 0.6rem; }
+  .section__head {
+    display: block;
+    margin-bottom: 1.8rem;
+  }
+  .section__head .label {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .section__head .section__title {
+    display: inline-block;
+  }
   .hero { min-height: 84vh; gap: 1.8rem; }
   .hero__name .line:nth-child(2) { padding-left: 1.5rem; }
   .cursor-glow { display: none; }
