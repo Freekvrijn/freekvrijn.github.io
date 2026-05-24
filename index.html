@@ -1,21 +1,20 @@
 <!--
   index.html — Freek van Rijn
   ---------------------------------------------------------------
-  Structure of this page (search for the section markers below):
+  Layout: brittanychiang.com-style two-column.
 
-    §1  HERO              — name + tagline + scroll cue
-    §2  ABOUT             — bio paragraph
-    §3  WORK              — work experience / internships (timeline)
-    §4  PROJECTS          — personal/professional projects
-    §5  SCHOOL PROJECTS   — coursework projects (distinct styling)
-    §6  CONTACT           — email, GitHub, LinkedIn
+    LEFT  (sticky on desktop): name, role, short intro,
+                               in-page nav with active indicator,
+                               social icons at the bottom.
+    RIGHT (scrolls):           §1 About
+                               §2 Experience  (work cards)
+                               §3 Projects    (with thumb)
+                               §4 School      (with thumb)
 
-  Placeholders to fill in:
-    {{TAGLINE_HERE}}      one-line description of what you do
+  Fill in:
+    {{TAGLINE_HERE}}      hero one-liner under the name
     {{WRITE_BIO_HERE}}    about paragraph
-    TODO comments inside templates mark content slots
-
-  Add new entries by duplicating the marked template blocks.
+    TODO comments inside cards mark content slots
 -->
 <!doctype html>
 <html lang="en">
@@ -23,323 +22,326 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Freek van Rijn</title>
-    <meta
-      name="description"
-      content="Freek van Rijn — Computer Science student, Netherlands."
-    />
-    <meta name="theme-color" content="#0e0b08" />
+    <meta name="description" content="Freek van Rijn — Computer Science student, Netherlands." />
+    <meta name="theme-color" content="#0a192f" />
     <meta name="color-scheme" content="dark" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Scroll-progress bar — fills L→R as the page scrolls. -->
-    <div class="scroll-progress" aria-hidden="true"></div>
+    <!-- Cursor-following radial spotlight (desktop only, JS positions it) -->
+    <div class="spotlight" aria-hidden="true"></div>
 
-    <!-- FX layer: floating colored blobs in the background, a cursor-following
-         glow on top, and a grain overlay above everything. All non-interactive. -->
-    <div class="blobs" aria-hidden="true">
-      <div class="blob blob--1"></div>
-      <div class="blob blob--2"></div>
-      <div class="blob blob--3"></div>
-      <div class="blob blob--4"></div>
-      <div class="blob blob--5"></div>
-    </div>
-    <div class="cursor-glow" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
+    <a class="skip" href="#about">Skip to content</a>
 
-    <!-- Top bar — minimal, just a wordmark and a couple of in-page anchors. -->
-    <header class="topbar">
-      <a href="#top" class="wordmark">Freek van Rijn</a>
-      <nav class="topnav" aria-label="Section navigation">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
-
-    <main id="top">
-      <!-- ════════════════════════════════════════════════════════════════
-           §1  HERO
-           Name is the only thing committed. Tagline is a placeholder.
-           ════════════════════════════════════════════════════════════════ -->
-      <section class="hero" id="hero">
-        <div class="hero__meta">
-          <span class="label">§ 00</span>
-          <span class="dot">·</span>
-          <span>Netherlands</span>
-        </div>
-
-        <h1 class="hero__name reveal" data-reveal>
-          <span class="line"><span>Freek</span></span>
-          <span class="line"><span>van&nbsp;Rijn</span></span>
-        </h1>
-
-        <p class="hero__tagline reveal" data-reveal data-reveal-delay="180">
-          <span class="placeholder">{{TAGLINE_HERE}}</span>
-        </p>
-
-        <div class="hero__footer">
-          <a href="#about" class="scrollcue" aria-label="Scroll to about section">
-            <span>Scroll</span>
-            <svg viewBox="0 0 24 40" aria-hidden="true">
-              <rect
-                x="1"
-                y="1"
-                width="22"
-                height="38"
-                rx="11"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.2"
-              />
-              <circle class="scrollcue__dot" cx="12" cy="10" r="2" fill="currentColor" />
-            </svg>
-          </a>
-        </div>
-      </section>
-
-      <!-- ════════════════════════════════════════════════════════════════
-           §2  ABOUT
-           Replace {{WRITE_BIO_HERE}} with one or two paragraphs.
-           Keep it conversational — avoid soft-skill clichés.
-           ════════════════════════════════════════════════════════════════ -->
-      <section class="section section--about" id="about">
-        <header class="section__head" data-reveal>
-          <span class="label">§ 01</span>
-          <h2 class="section__title">About</h2>
-        </header>
-
-        <div class="section__body about-body" data-reveal data-reveal-delay="100">
-          <p class="lede"><span class="placeholder">{{WRITE_BIO_HERE}}</span></p>
-
-          <!-- Optional second paragraph. Delete if not needed. -->
-          <!-- <p>{{WRITE_BIO_HERE_PARAGRAPH_TWO}}</p> -->
-
-          <!-- Skills — leave the container, fill the list yourself.
-               Each <li> is a free-form tag; no logos, no proficiency bars. -->
-          <ul class="skills" aria-label="Skills">
-            <!-- <li>Example skill</li> -->
-          </ul>
-        </div>
-      </section>
-
-      <!-- ════════════════════════════════════════════════════════════════
-           §3  WORK / INTERNSHIPS
-           Timeline. Duplicate the <li class="entry"> block to add more.
-           Order: most recent at top.
-           ════════════════════════════════════════════════════════════════ -->
-      <section class="section section--work" id="work">
-        <header class="section__head" data-reveal>
-          <span class="label">§ 02</span>
-          <h2 class="section__title">Work</h2>
-        </header>
-
-        <ol class="timeline section__body">
-          <!-- ── ENTRY TEMPLATE ─────────────────────────────────────────
-               Copy this entire <li>…</li> block to add another role.
-               ──────────────────────────────────────────────────────── -->
-          <li class="entry" data-reveal>
-            <div class="entry__when">
-              <!-- TODO: year range, e.g. 2024 — Present -->
-              <span class="mono">—</span>
-            </div>
-            <div class="entry__what">
-              <h3 class="entry__role"><!-- TODO: job title --></h3>
-              <p class="entry__org"><!-- TODO: company / organisation --></p>
-              <p class="entry__note">
-                <!-- TODO: one or two sentences. What did you actually work on? -->
-              </p>
-            </div>
-          </li>
-
-          <li class="entry" data-reveal data-reveal-delay="80">
-            <div class="entry__when">
-              <span class="mono">—</span>
-            </div>
-            <div class="entry__what">
-              <h3 class="entry__role"><!-- TODO: job title --></h3>
-              <p class="entry__org"><!-- TODO: company / organisation --></p>
-              <p class="entry__note">
-                <!-- TODO: one or two sentences. What did you actually work on? -->
-              </p>
-            </div>
-          </li>
-          <!-- ── /ENTRY TEMPLATE ─────────────────────────────────────── -->
-        </ol>
-      </section>
-
-      <!-- ════════════════════════════════════════════════════════════════
-           §4  PROJECTS
-           Index-style list, not a grid. Duplicate <article class="project">
-           to add more. Cards alternate alignment via :nth-child in CSS.
-           ════════════════════════════════════════════════════════════════ -->
-      <section class="section section--projects" id="projects">
-        <header class="section__head" data-reveal>
-          <span class="label">§ 03</span>
-          <h2 class="section__title">Projects</h2>
-        </header>
-
-        <div class="projects section__body">
-          <!-- ── PROJECT TEMPLATE ───────────────────────────────────────
-               Copy this entire <article>…</article> block to add another.
-               ──────────────────────────────────────────────────────── -->
-          <article class="project" data-reveal>
-            <div class="project__index">01</div>
-            <div class="project__body">
-              <h3 class="project__title">
-                <!-- TODO: project title -->
-                <span class="project__year"><!-- TODO: year --></span>
-              </h3>
-              <p class="project__blurb">
-                <!-- TODO: one paragraph. What it is, why you built it,
-                     what you learned. Plain prose — no bullet salad. -->
-              </p>
-              <ul class="project__meta">
-                <!-- <li>Stack item</li> -->
-              </ul>
-              <div class="project__links">
-                <!-- <a href="#">Live</a>
-                <a href="#">Source</a> -->
-              </div>
-            </div>
-          </article>
-
-          <article class="project" data-reveal data-reveal-delay="80">
-            <div class="project__index">02</div>
-            <div class="project__body">
-              <h3 class="project__title">
-                <!-- TODO: project title -->
-                <span class="project__year"><!-- TODO: year --></span>
-              </h3>
-              <p class="project__blurb">
-                <!-- TODO: describe project -->
-              </p>
-              <ul class="project__meta"></ul>
-              <div class="project__links"></div>
-            </div>
-          </article>
-
-          <article class="project" data-reveal data-reveal-delay="160">
-            <div class="project__index">03</div>
-            <div class="project__body">
-              <h3 class="project__title">
-                <!-- TODO: project title -->
-                <span class="project__year"><!-- TODO: year --></span>
-              </h3>
-              <p class="project__blurb">
-                <!-- TODO: describe project -->
-              </p>
-              <ul class="project__meta"></ul>
-              <div class="project__links"></div>
-            </div>
-          </article>
-          <!-- ── /PROJECT TEMPLATE ──────────────────────────────────── -->
-        </div>
-      </section>
-
-      <!-- ════════════════════════════════════════════════════════════════
-           §5  SCHOOL PROJECTS
-           Same shape as Projects but smaller, denser, less prominent —
-           coursework lives in its own register.
-           ════════════════════════════════════════════════════════════════ -->
-      <section class="section section--school" id="school">
-        <header class="section__head" data-reveal>
-          <span class="label">§ 04</span>
-          <h2 class="section__title">School</h2>
-          <p class="section__sub">
-            Coursework from Avans Hogeschool — small things, in progress.
+    <div class="page">
+      <!-- ════════════════════════════════════════════════════════════
+           LEFT COLUMN — sticky on desktop, intro at top, socials below
+           ════════════════════════════════════════════════════════════ -->
+      <header class="sidebar">
+        <div class="sidebar__top">
+          <h1 class="sidebar__name">
+            <a href="/">Freek van Rijn</a>
+          </h1>
+          <h2 class="sidebar__role">
+            Third-year Computer Science student
+          </h2>
+          <p class="sidebar__tagline">
+            <span class="placeholder">{{TAGLINE_HERE}}</span>
           </p>
-        </header>
 
-        <ul class="school-list section__body">
-          <!-- ── SCHOOL PROJECT TEMPLATE ────────────────────────────────
-               Copy this <li>…</li> block to add another.
-               ──────────────────────────────────────────────────────── -->
-          <li class="school-item" data-reveal>
-            <div class="school-item__year">
-              <!-- TODO: year/semester, e.g. Y2 · Q3 -->
-              <span class="mono">—</span>
-            </div>
-            <div class="school-item__body">
-              <h3 class="school-item__title"><!-- TODO: project title --></h3>
-              <p class="school-item__blurb">
-                <!-- TODO: one or two lines. -->
-              </p>
-            </div>
-          </li>
+          <nav class="sidenav" aria-label="In-page navigation">
+            <ul>
+              <li>
+                <a href="#about" data-nav>
+                  <span class="sidenav__indicator"></span>
+                  <span class="sidenav__label">About</span>
+                </a>
+              </li>
+              <li>
+                <a href="#experience" data-nav>
+                  <span class="sidenav__indicator"></span>
+                  <span class="sidenav__label">Experience</span>
+                </a>
+              </li>
+              <li>
+                <a href="#projects" data-nav>
+                  <span class="sidenav__indicator"></span>
+                  <span class="sidenav__label">Projects</span>
+                </a>
+              </li>
+              <li>
+                <a href="#school" data-nav>
+                  <span class="sidenav__indicator"></span>
+                  <span class="sidenav__label">School</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
-          <li class="school-item" data-reveal data-reveal-delay="80">
-            <div class="school-item__year">
-              <span class="mono">—</span>
-            </div>
-            <div class="school-item__body">
-              <h3 class="school-item__title"><!-- TODO: project title --></h3>
-              <p class="school-item__blurb">
-                <!-- TODO: describe project -->
-              </p>
-            </div>
+        <!-- Socials — replace href values with your own -->
+        <ul class="socials" aria-label="Social links">
+          <li>
+            <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            </a>
           </li>
-          <!-- ── /SCHOOL PROJECT TEMPLATE ───────────────────────────── -->
+          <li>
+            <a href="https://linkedin.com/in/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:freekrijn@gmail.com" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-10 6L2 7"/>
+              </svg>
+            </a>
+          </li>
         </ul>
-      </section>
+      </header>
 
-      <!-- ════════════════════════════════════════════════════════════════
-           §6  CONTACT
-           Replace the href values. Keep it short — three links is plenty.
-           ════════════════════════════════════════════════════════════════ -->
-      <section class="section section--contact" id="contact">
-        <header class="section__head" data-reveal>
-          <span class="label">§ 05</span>
-          <h2 class="section__title">Contact</h2>
-        </header>
+      <!-- ════════════════════════════════════════════════════════════
+           RIGHT COLUMN — scrolls
+           ════════════════════════════════════════════════════════════ -->
+      <main class="content">
+        <!-- §1 ABOUT — replace placeholder with one or two paragraphs -->
+        <section id="about" class="content__section" aria-labelledby="about-h">
+          <h2 class="content__sticky-heading" id="about-h">About</h2>
 
-        <div class="section__body contact-body" data-reveal data-reveal-delay="100">
-          <p class="contact__line">
-            The fastest way to reach me is
-            <a href="mailto:freekrijn@gmail.com" class="contact__link"
-              >freekrijn@gmail.com</a
-            >.
-          </p>
+          <div class="prose">
+            <p><span class="placeholder">{{WRITE_BIO_HERE}}</span></p>
+            <!--
+              Tip: link words inline with <a class="link"> for the
+              accent hover effect, e.g.
+              <a class="link" href="https://avans.nl">Avans Hogeschool</a>.
+            -->
+          </div>
+        </section>
 
-          <ul class="contact__list">
-            <li>
-              <span class="mono label">email</span>
-              <a href="mailto:freekrijn@gmail.com"
-                >freekrijn@gmail.com</a
-              >
+        <!-- §2 EXPERIENCE — duplicate <li class="card-row"> for more roles -->
+        <section id="experience" class="content__section" aria-labelledby="experience-h">
+          <h2 class="content__sticky-heading" id="experience-h">Experience</h2>
+
+          <ol class="card-list">
+            <!-- ── ROLE TEMPLATE ──────────────────────────────────── -->
+            <li class="card-row">
+              <a class="card" href="#" target="_blank" rel="noopener">
+                <div class="card__when">
+                  <!-- TODO: e.g. 2024 — Present -->
+                  <span>—</span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">
+                    <span class="card__title-text">
+                      <!-- TODO: Role -->Role
+                      <span class="card__sep">·</span>
+                      <!-- TODO: Company -->Company
+                    </span>
+                    <span class="card__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17 17 7M9 7h8v8"/>
+                      </svg>
+                    </span>
+                  </h3>
+                  <p class="card__sub">
+                    <!-- TODO: optional one-line subhead -->
+                  </p>
+                  <p class="card__desc">
+                    <!-- TODO: one or two sentences about what you did. -->
+                  </p>
+                  <ul class="tags">
+                    <!-- <li>JavaScript</li> -->
+                  </ul>
+                </div>
+              </a>
             </li>
-            <li>
-              <span class="mono label">github</span>
-              <a href="https://github.com/" target="_blank" rel="noopener"
-                >github.com/your-handle</a
-              >
+
+            <li class="card-row">
+              <a class="card" href="#" target="_blank" rel="noopener">
+                <div class="card__when">
+                  <span>—</span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">
+                    <span class="card__title-text">
+                      Role <span class="card__sep">·</span> Company
+                    </span>
+                    <span class="card__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17 17 7M9 7h8v8"/>
+                      </svg>
+                    </span>
+                  </h3>
+                  <p class="card__sub"></p>
+                  <p class="card__desc">
+                    <!-- TODO: describe role -->
+                  </p>
+                  <ul class="tags"></ul>
+                </div>
+              </a>
             </li>
-            <li>
-              <span class="mono label">linkedin</span>
-              <a href="https://linkedin.com/in/" target="_blank" rel="noopener"
-                >linkedin.com/in/your-handle</a
-              >
+            <!-- ── /ROLE TEMPLATE ─────────────────────────────────── -->
+          </ol>
+        </section>
+
+        <!-- §3 PROJECTS — duplicate <li class="card-row card-row--project"> -->
+        <section id="projects" class="content__section" aria-labelledby="projects-h">
+          <h2 class="content__sticky-heading" id="projects-h">Projects</h2>
+
+          <ul class="card-list">
+            <!-- ── PROJECT TEMPLATE ───────────────────────────────── -->
+            <li class="card-row card-row--project">
+              <a class="card" href="#" target="_blank" rel="noopener">
+                <div class="card__thumb" aria-hidden="true">
+                  <!-- Replace this with an <img> when you have a screenshot:
+                       <img src="./images/project-1.jpg" alt="" /> -->
+                  <span class="card__thumb-placeholder">preview</span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">
+                    <span class="card__title-text">
+                      <!-- TODO: Project title -->Project title
+                    </span>
+                    <span class="card__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17 17 7M9 7h8v8"/>
+                      </svg>
+                    </span>
+                  </h3>
+                  <p class="card__desc">
+                    <!-- TODO: describe project — one paragraph. -->
+                  </p>
+                  <ul class="tags">
+                    <!-- <li>Tech</li> -->
+                  </ul>
+                </div>
+              </a>
+            </li>
+
+            <li class="card-row card-row--project">
+              <a class="card" href="#" target="_blank" rel="noopener">
+                <div class="card__thumb" aria-hidden="true">
+                  <span class="card__thumb-placeholder">preview</span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">
+                    <span class="card__title-text">Project title</span>
+                    <span class="card__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17 17 7M9 7h8v8"/>
+                      </svg>
+                    </span>
+                  </h3>
+                  <p class="card__desc">
+                    <!-- TODO: describe project -->
+                  </p>
+                  <ul class="tags"></ul>
+                </div>
+              </a>
+            </li>
+
+            <li class="card-row card-row--project">
+              <a class="card" href="#" target="_blank" rel="noopener">
+                <div class="card__thumb" aria-hidden="true">
+                  <span class="card__thumb-placeholder">preview</span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">
+                    <span class="card__title-text">Project title</span>
+                    <span class="card__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17 17 7M9 7h8v8"/>
+                      </svg>
+                    </span>
+                  </h3>
+                  <p class="card__desc">
+                    <!-- TODO: describe project -->
+                  </p>
+                  <ul class="tags"></ul>
+                </div>
+              </a>
+            </li>
+            <!-- ── /PROJECT TEMPLATE ──────────────────────────────── -->
+          </ul>
+        </section>
+
+        <!-- §4 SCHOOL — coursework, same shape, distinct accent -->
+        <section id="school" class="content__section content__section--school" aria-labelledby="school-h">
+          <h2 class="content__sticky-heading" id="school-h">School</h2>
+
+          <ul class="card-list">
+            <li class="card-row card-row--project">
+              <a class="card" href="#" target="_blank" rel="noopener">
+                <div class="card__thumb" aria-hidden="true">
+                  <span class="card__thumb-placeholder">coursework</span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">
+                    <span class="card__title-text">
+                      <!-- TODO: Coursework title -->Coursework title
+                    </span>
+                    <span class="card__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17 17 7M9 7h8v8"/>
+                      </svg>
+                    </span>
+                  </h3>
+                  <p class="card__desc">
+                    <!-- TODO: describe project -->
+                  </p>
+                  <ul class="tags"></ul>
+                </div>
+              </a>
+            </li>
+
+            <li class="card-row card-row--project">
+              <a class="card" href="#" target="_blank" rel="noopener">
+                <div class="card__thumb" aria-hidden="true">
+                  <span class="card__thumb-placeholder">coursework</span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">
+                    <span class="card__title-text">Coursework title</span>
+                    <span class="card__arrow" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17 17 7M9 7h8v8"/>
+                      </svg>
+                    </span>
+                  </h3>
+                  <p class="card__desc">
+                    <!-- TODO: describe project -->
+                  </p>
+                  <ul class="tags"></ul>
+                </div>
+              </a>
             </li>
           </ul>
-        </div>
-      </section>
-    </main>
 
-    <footer class="footer">
-      <div class="footer__inner">
-        <span class="mono">© <span id="year">2026</span> · Freek van Rijn</span>
-        <span class="mono">freekvanrijn.nl</span>
-      </div>
-    </footer>
+          <footer class="content__footer">
+            <p>
+              Built by hand in HTML, CSS, and JS. Typeset in
+              <a class="link" href="https://rsms.me/inter/" target="_blank" rel="noopener">Inter</a>.
+              © <span id="year">2026</span> Freek van Rijn.
+            </p>
+          </footer>
+        </section>
+      </main>
+    </div>
 
     <script src="script.js"></script>
   </body>
