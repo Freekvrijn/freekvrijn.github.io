@@ -19,7 +19,7 @@
 
   const timeEl = document.getElementById("now-time");
   if (timeEl) {
-    const fmt = new Intl.DateTimeFormat("en-GB", {
+    const fmt = new Intl.DateTimeFormat("nl-NL", {
       timeZone: "Europe/Amsterdam",
       hour: "2-digit",
       minute: "2-digit",

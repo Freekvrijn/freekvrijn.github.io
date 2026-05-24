@@ -169,6 +169,29 @@ p { margin: 0; }
   }
 }
 
+/* Avatar — circular portrait above the mark */
+.avatar {
+  display: inline-block;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1.6rem;
+  border: 1px solid var(--rule);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.25s ease;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar:hover,
+.avatar:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
 /* Personal mark — tiny label above the name */
 .sidebar__mark {
   font-family: var(--font-mono);
@@ -199,14 +222,8 @@ p { margin: 0; }
   font-size: clamp(1rem, 1.3vw, 1.1rem);
   font-weight: 500;
   color: var(--text);
-  margin-bottom: 1rem;
-}
-
-.sidebar__tagline {
-  color: var(--text-mute);
   max-width: 24rem;
   margin-bottom: 2.5rem;
-  font-size: 0.98rem;
 }
 
 /* ── 7. NAV ────────────────────────────────────────────────── */
@@ -546,7 +563,7 @@ p { margin: 0; }
 /* ── 15. RESPONSIVE ────────────────────────────────────────── */
 @media (max-width: 1023px) {
   .sidebar { padding: 3.5rem 0 2rem; }
-  .sidebar__tagline { margin-bottom: 1rem; }
+  .sidebar__role { margin-bottom: 1.5rem; }
   .content { padding-top: 0; }
 }
 @media (max-width: 540px) {

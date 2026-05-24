@@ -15,12 +15,12 @@
   Add new experience/project entries by duplicating the marked <li>.
 -->
 <!doctype html>
-<html lang="en">
+<html lang="nl">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Freek van Rijn</title>
-    <meta name="description" content="Freek van Rijn — Computer Science student, Netherlands." />
+    <meta name="description" content="Freek van Rijn — Informatica-student aan Avans." />
     <meta name="theme-color" content="#1a1814" />
     <meta name="color-scheme" content="dark" />
 
@@ -36,7 +36,7 @@
     <!-- Subtle grain overlay, fixed above content but non-interactive. -->
     <div class="grain" aria-hidden="true"></div>
 
-    <a class="skip" href="#about">Skip to content</a>
+    <a class="skip" href="#about">Naar de inhoud</a>
 
     <div class="page">
       <!-- ════════════════════════════════════════════════════════════
@@ -44,6 +44,10 @@
            ════════════════════════════════════════════════════════════ -->
       <header class="sidebar">
         <div class="sidebar__top">
+          <a class="avatar" href="/" aria-label="Freek van Rijn">
+            <img src="avatar.jpg" alt="Portretfoto van Freek van Rijn" width="96" height="96" />
+          </a>
+
           <p class="sidebar__mark">
             Portfolio <span class="dot">·</span> 2026
           </p>
@@ -53,31 +57,27 @@
           </h1>
 
           <h2 class="sidebar__role">
-            Third-year Computer Science student
+            Informatica-student aan Avans
           </h2>
 
-          <p class="sidebar__tagline">
-            <span class="placeholder">{{TAGLINE_HERE}}</span>
-          </p>
-
-          <nav class="sidenav" aria-label="In-page navigation">
+          <nav class="sidenav" aria-label="Paginanavigatie">
             <ul>
               <li>
                 <a href="#about" data-nav>
                   <span class="sidenav__num">01</span>
-                  <span class="sidenav__label">About</span>
+                  <span class="sidenav__label">Over</span>
                 </a>
               </li>
               <li>
                 <a href="#experience" data-nav>
                   <span class="sidenav__num">02</span>
-                  <span class="sidenav__label">Experience</span>
+                  <span class="sidenav__label">Ervaring</span>
                 </a>
               </li>
               <li>
                 <a href="#projects" data-nav>
                   <span class="sidenav__num">03</span>
-                  <span class="sidenav__label">Projects</span>
+                  <span class="sidenav__label">Projecten</span>
                 </a>
               </li>
               <li>
@@ -93,10 +93,10 @@
         <div class="sidebar__bottom">
           <p class="now" aria-live="polite">
             <span class="now__dot" aria-hidden="true"></span>
-            <span><span id="now-time">--:--</span> · Netherlands</span>
+            <span><span id="now-time">--:--</span> · Nederland</span>
           </p>
 
-          <ul class="socials" aria-label="Social links">
+          <ul class="socials" aria-label="Sociale links">
             <li>
               <a href="https://github.com/Freekvrijn" target="_blank" rel="noopener" aria-label="GitHub">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -129,20 +129,21 @@
            CONTENT — scrolls
            ════════════════════════════════════════════════════════════ -->
       <main class="content">
-        <!-- §1 ABOUT — replace placeholder with one or two paragraphs -->
+        <!-- §1 ABOUT -->
         <section id="about" class="content__section" aria-labelledby="about-h">
-          <h2 class="content__sticky-heading" id="about-h">about</h2>
+          <h2 class="content__sticky-heading" id="about-h">over</h2>
           <div class="prose">
-            <p><span class="placeholder">{{WRITE_BIO_HERE}}</span></p>
-            <!--
-              Use <a class="link" href="…">…</a> for inline accent links.
-            -->
+            <p>
+              Informatica-student aan Avans. Werk parttime aan een tool die
+              marktdata verwerkt voor banken. Deze site is een verzameling
+              van wat ik bouw en leer.
+            </p>
           </div>
         </section>
 
         <!-- §2 EXPERIENCE — duplicate <li> to add another role -->
         <section id="experience" class="content__section" aria-labelledby="experience-h">
-          <h2 class="content__sticky-heading" id="experience-h">experience</h2>
+          <h2 class="content__sticky-heading" id="experience-h">ervaring</h2>
 
           <ol class="card-list">
             <!-- ── ROLE TEMPLATE ─────────────────────────────────── -->
@@ -203,7 +204,7 @@
 
         <!-- §3 PROJECTS — duplicate <li> to add another project -->
         <section id="projects" class="content__section" aria-labelledby="projects-h">
-          <h2 class="content__sticky-heading" id="projects-h">projects</h2>
+          <h2 class="content__sticky-heading" id="projects-h">projecten</h2>
 
           <ul class="card-list">
             <!-- ── PROJECT TEMPLATE ──────────────────────────────── -->
@@ -333,9 +334,9 @@
 
           <footer class="content__footer">
             <p>
-              Built by hand in HTML, CSS, and JS. Typeset in
+              Met de hand gebouwd in HTML, CSS en JS. Gezet in
               <a class="link" href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Fraunces</a>
-              and
+              en
               <a class="link" href="https://rsms.me/inter/" target="_blank" rel="noopener">Inter</a>.
               © <span id="year">2026</span> Freek van Rijn.
             </p>
