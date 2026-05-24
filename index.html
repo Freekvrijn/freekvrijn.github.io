@@ -1,0 +1,334 @@
+<!--
+  index.html — Freek van Rijn
+  ---------------------------------------------------------------
+  Structure of this page (search for the section markers below):
+
+    §1  HERO              — name + tagline + scroll cue
+    §2  ABOUT             — bio paragraph
+    §3  WORK              — work experience / internships (timeline)
+    §4  PROJECTS          — personal/professional projects
+    §5  SCHOOL PROJECTS   — coursework projects (distinct styling)
+    §6  CONTACT           — email, GitHub, LinkedIn
+
+  Placeholders to fill in:
+    {{TAGLINE_HERE}}        — one-line description of what you do
+    {{WRITE_BIO_HERE}}      — about paragraph
+    <!-- TODO: ... -->      — content slots inside templates
+
+  Add new entries by duplicating the marked template blocks.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Freek van Rijn</title>
+    <meta
+      name="description"
+      content="Freek van Rijn — Computer Science student, Netherlands."
+    />
+    <meta name="theme-color" content="#f3efe7" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Grain overlay — the one distinctive detail. Sits above everything,
+         non-interactive, fixed. Defined in CSS via an SVG turbulence filter. -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Top bar — minimal, just a wordmark and a couple of in-page anchors. -->
+    <header class="topbar">
+      <a href="#top" class="wordmark">Freek van Rijn</a>
+      <nav class="topnav" aria-label="Section navigation">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- ════════════════════════════════════════════════════════════════
+           §1  HERO
+           Name is the only thing committed. Tagline is a placeholder.
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="hero" id="hero">
+        <div class="hero__meta">
+          <span class="label">§ 00</span>
+          <span class="dot">·</span>
+          <span>Netherlands</span>
+        </div>
+
+        <h1 class="hero__name reveal" data-reveal>
+          <span class="line"><span>Freek</span></span>
+          <span class="line"><span>van&nbsp;Rijn</span></span>
+        </h1>
+
+        <p class="hero__tagline reveal" data-reveal data-reveal-delay="180">
+          {{TAGLINE_HERE}}
+        </p>
+
+        <div class="hero__footer">
+          <a href="#about" class="scrollcue" aria-label="Scroll to about section">
+            <span>Scroll</span>
+            <svg viewBox="0 0 24 40" aria-hidden="true">
+              <rect
+                x="1"
+                y="1"
+                width="22"
+                height="38"
+                rx="11"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+              />
+              <circle class="scrollcue__dot" cx="12" cy="10" r="2" fill="currentColor" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           §2  ABOUT
+           Replace {{WRITE_BIO_HERE}} with one or two paragraphs.
+           Keep it conversational — avoid soft-skill clichés.
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="section section--about" id="about">
+        <header class="section__head" data-reveal>
+          <span class="label">§ 01</span>
+          <h2 class="section__title">About</h2>
+        </header>
+
+        <div class="section__body about-body" data-reveal data-reveal-delay="100">
+          <p class="lede">{{WRITE_BIO_HERE}}</p>
+
+          <!-- Optional second paragraph. Delete if not needed. -->
+          <!-- <p>{{WRITE_BIO_HERE_PARAGRAPH_TWO}}</p> -->
+
+          <!-- Skills — leave the container, fill the list yourself.
+               Each <li> is a free-form tag; no logos, no proficiency bars. -->
+          <ul class="skills" aria-label="Skills">
+            <!-- <li>Example skill</li> -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           §3  WORK / INTERNSHIPS
+           Timeline. Duplicate the <li class="entry"> block to add more.
+           Order: most recent at top.
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="section section--work" id="work">
+        <header class="section__head" data-reveal>
+          <span class="label">§ 02</span>
+          <h2 class="section__title">Work</h2>
+        </header>
+
+        <ol class="timeline section__body">
+          <!-- ── ENTRY TEMPLATE ─────────────────────────────────────────
+               Copy this entire <li>…</li> block to add another role.
+               ──────────────────────────────────────────────────────── -->
+          <li class="entry" data-reveal>
+            <div class="entry__when">
+              <!-- TODO: year range, e.g. 2024 — Present -->
+              <span class="mono">—</span>
+            </div>
+            <div class="entry__what">
+              <h3 class="entry__role"><!-- TODO: job title --></h3>
+              <p class="entry__org"><!-- TODO: company / organisation --></p>
+              <p class="entry__note">
+                <!-- TODO: one or two sentences. What did you actually work on? -->
+              </p>
+            </div>
+          </li>
+
+          <li class="entry" data-reveal data-reveal-delay="80">
+            <div class="entry__when">
+              <span class="mono">—</span>
+            </div>
+            <div class="entry__what">
+              <h3 class="entry__role"><!-- TODO: job title --></h3>
+              <p class="entry__org"><!-- TODO: company / organisation --></p>
+              <p class="entry__note">
+                <!-- TODO: one or two sentences. What did you actually work on? -->
+              </p>
+            </div>
+          </li>
+          <!-- ── /ENTRY TEMPLATE ─────────────────────────────────────── -->
+        </ol>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           §4  PROJECTS
+           Index-style list, not a grid. Duplicate <article class="project">
+           to add more. Cards alternate alignment via :nth-child in CSS.
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="section section--projects" id="projects">
+        <header class="section__head" data-reveal>
+          <span class="label">§ 03</span>
+          <h2 class="section__title">Projects</h2>
+        </header>
+
+        <div class="projects section__body">
+          <!-- ── PROJECT TEMPLATE ───────────────────────────────────────
+               Copy this entire <article>…</article> block to add another.
+               ──────────────────────────────────────────────────────── -->
+          <article class="project" data-reveal>
+            <div class="project__index">01</div>
+            <div class="project__body">
+              <h3 class="project__title">
+                <!-- TODO: project title -->
+                <span class="project__year"><!-- TODO: year --></span>
+              </h3>
+              <p class="project__blurb">
+                <!-- TODO: one paragraph. What it is, why you built it,
+                     what you learned. Plain prose — no bullet salad. -->
+              </p>
+              <ul class="project__meta">
+                <!-- <li>Stack item</li> -->
+              </ul>
+              <div class="project__links">
+                <!-- <a href="#">Live</a>
+                <a href="#">Source</a> -->
+              </div>
+            </div>
+          </article>
+
+          <article class="project" data-reveal data-reveal-delay="80">
+            <div class="project__index">02</div>
+            <div class="project__body">
+              <h3 class="project__title">
+                <!-- TODO: project title -->
+                <span class="project__year"><!-- TODO: year --></span>
+              </h3>
+              <p class="project__blurb">
+                <!-- TODO: describe project -->
+              </p>
+              <ul class="project__meta"></ul>
+              <div class="project__links"></div>
+            </div>
+          </article>
+
+          <article class="project" data-reveal data-reveal-delay="160">
+            <div class="project__index">03</div>
+            <div class="project__body">
+              <h3 class="project__title">
+                <!-- TODO: project title -->
+                <span class="project__year"><!-- TODO: year --></span>
+              </h3>
+              <p class="project__blurb">
+                <!-- TODO: describe project -->
+              </p>
+              <ul class="project__meta"></ul>
+              <div class="project__links"></div>
+            </div>
+          </article>
+          <!-- ── /PROJECT TEMPLATE ──────────────────────────────────── -->
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           §5  SCHOOL PROJECTS
+           Same shape as Projects but smaller, denser, less prominent —
+           coursework lives in its own register.
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="section section--school" id="school">
+        <header class="section__head" data-reveal>
+          <span class="label">§ 04</span>
+          <h2 class="section__title">School</h2>
+          <p class="section__sub">
+            Coursework from Avans Hogeschool — small things, in progress.
+          </p>
+        </header>
+
+        <ul class="school-list section__body">
+          <!-- ── SCHOOL PROJECT TEMPLATE ────────────────────────────────
+               Copy this <li>…</li> block to add another.
+               ──────────────────────────────────────────────────────── -->
+          <li class="school-item" data-reveal>
+            <div class="school-item__year">
+              <!-- TODO: year/semester, e.g. Y2 · Q3 -->
+              <span class="mono">—</span>
+            </div>
+            <div class="school-item__body">
+              <h3 class="school-item__title"><!-- TODO: project title --></h3>
+              <p class="school-item__blurb">
+                <!-- TODO: one or two lines. -->
+              </p>
+            </div>
+          </li>
+
+          <li class="school-item" data-reveal data-reveal-delay="80">
+            <div class="school-item__year">
+              <span class="mono">—</span>
+            </div>
+            <div class="school-item__body">
+              <h3 class="school-item__title"><!-- TODO: project title --></h3>
+              <p class="school-item__blurb">
+                <!-- TODO: describe project -->
+              </p>
+            </div>
+          </li>
+          <!-- ── /SCHOOL PROJECT TEMPLATE ───────────────────────────── -->
+        </ul>
+      </section>
+
+      <!-- ════════════════════════════════════════════════════════════════
+           §6  CONTACT
+           Replace the href values. Keep it short — three links is plenty.
+           ════════════════════════════════════════════════════════════════ -->
+      <section class="section section--contact" id="contact">
+        <header class="section__head" data-reveal>
+          <span class="label">§ 05</span>
+          <h2 class="section__title">Contact</h2>
+        </header>
+
+        <div class="section__body contact-body" data-reveal data-reveal-delay="100">
+          <p class="contact__line">
+            The fastest way to reach me is
+            <a href="mailto:hello@freekvanrijn.nl" class="contact__link"
+              >hello@freekvanrijn.nl</a
+            >.
+          </p>
+
+          <ul class="contact__list">
+            <li>
+              <span class="mono label">email</span>
+              <a href="mailto:hello@freekvanrijn.nl"
+                >hello@freekvanrijn.nl</a
+              >
+            </li>
+            <li>
+              <span class="mono label">github</span>
+              <a href="https://github.com/" target="_blank" rel="noopener"
+                >github.com/your-handle</a
+              >
+            </li>
+            <li>
+              <span class="mono label">linkedin</span>
+              <a href="https://linkedin.com/in/" target="_blank" rel="noopener"
+                >linkedin.com/in/your-handle</a
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <span class="mono">© <span id="year">2026</span> · Freek van Rijn</span>
+        <span class="mono">freekvanrijn.nl</span>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
