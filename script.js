@@ -1,9 +1,10 @@
 /*
   script.js — Freek van Rijn
   ---------------------------------------------------------------
-  1. Footer year + live local time (Netherlands).
-  2. Reveal on scroll for [data-reveal] (first reveal only).
-  3. Sidebar nav: highlight the link for the section currently in view.
+  1. Taal-toggle (NL/EN) — bewaard in localStorage, default NL.
+  2. Footer year + live local time (Netherlands).
+  3. Reveal on scroll for [data-reveal] (first reveal only).
+  4. Sidebar nav: highlight the link for the section currently in view.
 */
 
 (() => {
@@ -13,9 +14,53 @@
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  /* 1. Year + live time */
-  const yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+  /* 1. Taal-toggle */
+  const LANG_KEY = "lang";
+  const SUPPORTED = ["nl", "en"];
+
+  const readLang = () => {
+    try {
+      const v = localStorage.getItem(LANG_KEY);
+      return SUPPORTED.includes(v) ? v : "nl";
+    } catch {
+      return "nl";
+    }
+  };
+
+  const applyLang = (lang) => {
+    document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("data-lang", lang);
+
+    // Wissel aria-label op elementen met data-aria-nl / data-aria-en
+    document
+      .querySelectorAll("[data-aria-nl][data-aria-en]")
+      .forEach((el) => {
+        const label = lang === "en" ? el.dataset.ariaEn : el.dataset.ariaNl;
+        if (label) el.setAttribute("aria-label", label);
+      });
+
+    // Update toggle-knoppen
+    document.querySelectorAll("[data-lang-set]").forEach((btn) => {
+      const active = btn.dataset.langSet === lang;
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+  };
+
+  applyLang(readLang());
+
+  document.querySelectorAll("[data-lang-set]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const lang = btn.dataset.langSet;
+      if (!SUPPORTED.includes(lang)) return;
+      try { localStorage.setItem(LANG_KEY, lang); } catch {}
+      applyLang(lang);
+    });
+  });
+
+  /* 2. Year + live time */
+  document.querySelectorAll(".year").forEach((el) => {
+    el.textContent = String(new Date().getFullYear());
+  });
 
   const timeEl = document.getElementById("now-time");
   if (timeEl) {
@@ -33,7 +78,7 @@
     setInterval(update, 30 * 1000);
   }
 
-  /* 2. Reveal on scroll */
+  /* 3. Reveal on scroll */
   const revealEls = document.querySelectorAll("[data-reveal]");
   if (prefersReducedMotion || !("IntersectionObserver" in window)) {
     revealEls.forEach((el) => el.classList.add("is-in"));
@@ -57,7 +102,7 @@
     revealEls.forEach((el) => io.observe(el));
   }
 
-  /* 3. Active-section indicator in sidebar nav */
+  /* 4. Active-section indicator in sidebar nav */
   const sections = Array.from(document.querySelectorAll("section[id]"));
   const navLinks = new Map();
   document.querySelectorAll("[data-nav]").forEach((a) => {

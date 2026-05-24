@@ -114,6 +114,14 @@ p { margin: 0; }
 .link:hover { color: var(--accent); }
 .link:hover::after { transform: scaleX(1); }
 
+/* ── 3a. BILINGUAL VISIBILITY ──────────────────────────────── */
+/* Only the spans / paragraphs matching the active language are shown.
+   Scoped to body descendants so the rule never targets <html> itself,
+   which gets its own lang attribute swapped on toggle. */
+body [lang="en"] { display: none; }
+html[data-lang="en"] body [lang="en"] { display: revert; }
+html[data-lang="en"] body [lang="nl"] { display: none; }
+
 /* ── 4. GRAIN OVERLAY ──────────────────────────────────────── */
 .grain {
   position: fixed;
@@ -167,6 +175,42 @@ p { margin: 0; }
     padding: 6rem 0;
     justify-content: space-between;
   }
+}
+
+/* Language toggle — small NL / EN switcher at the very top */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.lang-toggle__btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0.25rem 0.1rem;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--text-faint);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.lang-toggle__btn:hover,
+.lang-toggle__btn:focus-visible {
+  color: var(--text-bright);
+  outline: none;
+}
+.lang-toggle__btn[aria-pressed="true"] {
+  color: var(--accent);
+}
+.lang-toggle__sep {
+  color: var(--text-faint);
+  opacity: 0.6;
 }
 
 /* Avatar — circular portrait above the mark */

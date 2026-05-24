@@ -1,21 +1,26 @@
 <!--
   index.html — Freek van Rijn
   ---------------------------------------------------------------
-  Two-column layout: sticky sidebar (left) + scrolling content (right).
+  Tweetalig (NL/EN) — NL is default. De taal wordt gestuurd door
+  het data-lang attribuut op <html> en bewaard in localStorage.
 
-    LEFT  — mark, name (Fraunces italic), role, tagline,
-            numbered nav, live time, social icons.
-    RIGHT — §1 About  §2 Experience  §3 Projects  §4 School
+    Vertaalbare tekst staat in zustertags:
+      <span lang="nl">Nederlandse tekst</span>
+      <span lang="en">English text</span>
+    CSS verbergt automatisch de niet-actieve taal.
 
-  Fill in:
-    {{TAGLINE_HERE}}      one-liner under name
-    {{WRITE_BIO_HERE}}    about paragraph
-    Text labelled with `TODO:` inside the cards is yours to write.
+    Voor ARIA-labels: gebruik data-aria-nl en data-aria-en op het
+    element; de JS zet aria-label bij het wisselen van taal.
 
-  Add new experience/project entries by duplicating the marked <li>.
+  Layout: sticky sidebar links + scrollende content rechts.
+    LINKS  — taaltoggle, avatar, naam, rol, genummerde nav,
+             live tijd, social icons.
+    RECHTS — §1 Over  §2 Ervaring  §3 Projecten  §4 School
+
+  Cards: vul per card BEIDE talen in (NL én EN spans).
 -->
 <!doctype html>
-<html lang="nl">
+<html lang="nl" data-lang="nl">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,6 +28,19 @@
     <meta name="description" content="Freek van Rijn — Informatica-student aan Avans." />
     <meta name="theme-color" content="#1a1814" />
     <meta name="color-scheme" content="dark" />
+
+    <!-- Set saved language before first paint, to avoid a flash of the wrong language. -->
+    <script>
+      (function () {
+        try {
+          var l = localStorage.getItem("lang");
+          if (l === "en" || l === "nl") {
+            document.documentElement.setAttribute("data-lang", l);
+            document.documentElement.setAttribute("lang", l);
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,7 +54,10 @@
     <!-- Subtle grain overlay, fixed above content but non-interactive. -->
     <div class="grain" aria-hidden="true"></div>
 
-    <a class="skip" href="#about">Naar de inhoud</a>
+    <a class="skip" href="#about">
+      <span lang="nl">Naar de inhoud</span>
+      <span lang="en">Skip to content</span>
+    </a>
 
     <div class="page">
       <!-- ════════════════════════════════════════════════════════════
@@ -44,6 +65,13 @@
            ════════════════════════════════════════════════════════════ -->
       <header class="sidebar">
         <div class="sidebar__top">
+          <!-- Taal-toggle — schakelt tussen NL en EN, bewaard in localStorage -->
+          <div class="lang-toggle" role="group" aria-label="Taal" data-aria-nl="Taal" data-aria-en="Language">
+            <button type="button" class="lang-toggle__btn" data-lang-set="nl" aria-pressed="true">NL</button>
+            <span class="lang-toggle__sep" aria-hidden="true">/</span>
+            <button type="button" class="lang-toggle__btn" data-lang-set="en" aria-pressed="false">EN</button>
+          </div>
+
           <a class="avatar" href="/" aria-label="Freek van Rijn">
             <img src="avatar.jpg" alt="Portretfoto van Freek van Rijn" width="96" height="96" />
           </a>
@@ -57,27 +85,37 @@
           </h1>
 
           <h2 class="sidebar__role">
-            Informatica-student aan Avans
+            <span lang="nl">Informatica-student aan Avans</span>
+            <span lang="en">Computer Science student at Avans</span>
           </h2>
 
-          <nav class="sidenav" aria-label="Paginanavigatie">
+          <nav class="sidenav" aria-label="Paginanavigatie" data-aria-nl="Paginanavigatie" data-aria-en="In-page navigation">
             <ul>
               <li>
                 <a href="#about" data-nav>
                   <span class="sidenav__num">01</span>
-                  <span class="sidenav__label">Over</span>
+                  <span class="sidenav__label">
+                    <span lang="nl">Over</span>
+                    <span lang="en">About</span>
+                  </span>
                 </a>
               </li>
               <li>
                 <a href="#experience" data-nav>
                   <span class="sidenav__num">02</span>
-                  <span class="sidenav__label">Ervaring</span>
+                  <span class="sidenav__label">
+                    <span lang="nl">Ervaring</span>
+                    <span lang="en">Experience</span>
+                  </span>
                 </a>
               </li>
               <li>
                 <a href="#projects" data-nav>
                   <span class="sidenav__num">03</span>
-                  <span class="sidenav__label">Projecten</span>
+                  <span class="sidenav__label">
+                    <span lang="nl">Projecten</span>
+                    <span lang="en">Projects</span>
+                  </span>
                 </a>
               </li>
               <li>
@@ -93,10 +131,14 @@
         <div class="sidebar__bottom">
           <p class="now" aria-live="polite">
             <span class="now__dot" aria-hidden="true"></span>
-            <span><span id="now-time">--:--</span> · Nederland</span>
+            <span>
+              <span id="now-time">--:--</span> ·
+              <span lang="nl">Nederland</span>
+              <span lang="en">Netherlands</span>
+            </span>
           </p>
 
-          <ul class="socials" aria-label="Sociale links">
+          <ul class="socials" aria-label="Sociale links" data-aria-nl="Sociale links" data-aria-en="Social links">
             <li>
               <a href="https://github.com/Freekvrijn" target="_blank" rel="noopener" aria-label="GitHub">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -114,7 +156,7 @@
               </a>
             </li>
             <li>
-              <a href="mailto:freekrijn@gmail.com" aria-label="Email">
+              <a href="mailto:freekrijn@gmail.com" data-aria-nl="E-mail" data-aria-en="Email" aria-label="E-mail">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <rect x="2" y="4" width="20" height="16" rx="2"/>
                   <path d="m22 7-10 6L2 7"/>
@@ -129,21 +171,32 @@
            CONTENT — scrolls
            ════════════════════════════════════════════════════════════ -->
       <main class="content">
-        <!-- §1 ABOUT -->
+        <!-- §1 OVER / ABOUT -->
         <section id="about" class="content__section" aria-labelledby="about-h">
-          <h2 class="content__sticky-heading" id="about-h">over</h2>
+          <h2 class="content__sticky-heading" id="about-h">
+            <span lang="nl">over</span>
+            <span lang="en">about</span>
+          </h2>
           <div class="prose">
-            <p>
+            <p lang="nl">
               Informatica-student aan Avans. Werk parttime aan een tool die
               marktdata verwerkt voor banken. Deze site is een verzameling
               van wat ik bouw en leer.
             </p>
+            <p lang="en">
+              Computer Science student at Avans. Working part-time on a tool
+              that processes market data for banks. This site is a collection
+              of what I build and learn.
+            </p>
           </div>
         </section>
 
-        <!-- §2 EXPERIENCE — duplicate <li> to add another role -->
+        <!-- §2 ERVARING / EXPERIENCE — duplicate <li> to add another role -->
         <section id="experience" class="content__section" aria-labelledby="experience-h">
-          <h2 class="content__sticky-heading" id="experience-h">ervaring</h2>
+          <h2 class="content__sticky-heading" id="experience-h">
+            <span lang="nl">ervaring</span>
+            <span lang="en">experience</span>
+          </h2>
 
           <ol class="card-list">
             <!-- ── ROLE TEMPLATE ─────────────────────────────────── -->
@@ -152,13 +205,13 @@
                 <div class="card__number">01</div>
                 <div class="card__body">
                   <div class="card__when">
-                    <!-- TODO: e.g. 2024 — Present -->
+                    <span lang="nl"><!-- bv. 2024 — Heden --></span>
+                    <span lang="en"><!-- e.g. 2024 — Present --></span>
                   </div>
                   <h3 class="card__title">
                     <span class="card__title-text">
-                      <!-- TODO: Role -->Role
-                      <span class="card__sep">·</span>
-                      <!-- TODO: Company -->Company
+                      <span lang="nl"><!-- Functie -->Functie<span class="card__sep">·</span><!-- Bedrijf -->Bedrijf</span>
+                      <span lang="en"><!-- Role -->Role<span class="card__sep">·</span><!-- Company -->Company</span>
                     </span>
                     <span class="card__arrow" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -167,7 +220,8 @@
                     </span>
                   </h3>
                   <p class="card__desc">
-                    <!-- TODO: one or two sentences about what you actually did. -->
+                    <span lang="nl"><!-- Eén of twee zinnen over wat je daar deed. --></span>
+                    <span lang="en"><!-- One or two sentences about what you did. --></span>
                   </p>
                   <ul class="tags">
                     <!-- <li>JavaScript</li> -->
@@ -183,7 +237,8 @@
                   <div class="card__when"></div>
                   <h3 class="card__title">
                     <span class="card__title-text">
-                      Role <span class="card__sep">·</span> Company
+                      <span lang="nl">Functie <span class="card__sep">·</span> Bedrijf</span>
+                      <span lang="en">Role <span class="card__sep">·</span> Company</span>
                     </span>
                     <span class="card__arrow" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -192,7 +247,8 @@
                     </span>
                   </h3>
                   <p class="card__desc">
-                    <!-- TODO: describe role -->
+                    <span lang="nl"><!-- Beschrijf rol --></span>
+                    <span lang="en"><!-- Describe role --></span>
                   </p>
                   <ul class="tags"></ul>
                 </div>
@@ -202,9 +258,12 @@
           </ol>
         </section>
 
-        <!-- §3 PROJECTS — duplicate <li> to add another project -->
+        <!-- §3 PROJECTEN / PROJECTS — duplicate <li> to add another project -->
         <section id="projects" class="content__section" aria-labelledby="projects-h">
-          <h2 class="content__sticky-heading" id="projects-h">projecten</h2>
+          <h2 class="content__sticky-heading" id="projects-h">
+            <span lang="nl">projecten</span>
+            <span lang="en">projects</span>
+          </h2>
 
           <ul class="card-list">
             <!-- ── PROJECT TEMPLATE ──────────────────────────────── -->
@@ -213,11 +272,12 @@
                 <div class="card__number">01</div>
                 <div class="card__body">
                   <div class="card__when">
-                    <!-- TODO: year, e.g. 2025 -->
+                    <!-- jaar, bv. 2025 -->
                   </div>
                   <h3 class="card__title">
                     <span class="card__title-text">
-                      <!-- TODO: Project title -->Project title
+                      <span lang="nl">Projecttitel</span>
+                      <span lang="en">Project title</span>
                     </span>
                     <span class="card__arrow" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -226,7 +286,8 @@
                     </span>
                   </h3>
                   <p class="card__desc">
-                    <!-- TODO: describe project — one paragraph. -->
+                    <span lang="nl"><!-- Beschrijf project — één alinea. --></span>
+                    <span lang="en"><!-- Describe project — one paragraph. --></span>
                   </p>
                   <ul class="tags">
                     <!-- <li>Tech</li> -->
@@ -241,7 +302,10 @@
                 <div class="card__body">
                   <div class="card__when"></div>
                   <h3 class="card__title">
-                    <span class="card__title-text">Project title</span>
+                    <span class="card__title-text">
+                      <span lang="nl">Projecttitel</span>
+                      <span lang="en">Project title</span>
+                    </span>
                     <span class="card__arrow" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 17 17 7M9 7h8v8"/>
@@ -249,7 +313,8 @@
                     </span>
                   </h3>
                   <p class="card__desc">
-                    <!-- TODO: describe project -->
+                    <span lang="nl"><!-- Beschrijf project --></span>
+                    <span lang="en"><!-- Describe project --></span>
                   </p>
                   <ul class="tags"></ul>
                 </div>
@@ -262,7 +327,10 @@
                 <div class="card__body">
                   <div class="card__when"></div>
                   <h3 class="card__title">
-                    <span class="card__title-text">Project title</span>
+                    <span class="card__title-text">
+                      <span lang="nl">Projecttitel</span>
+                      <span lang="en">Project title</span>
+                    </span>
                     <span class="card__arrow" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 17 17 7M9 7h8v8"/>
@@ -270,7 +338,8 @@
                     </span>
                   </h3>
                   <p class="card__desc">
-                    <!-- TODO: describe project -->
+                    <span lang="nl"><!-- Beschrijf project --></span>
+                    <span lang="en"><!-- Describe project --></span>
                   </p>
                   <ul class="tags"></ul>
                 </div>
@@ -290,11 +359,12 @@
                 <div class="card__number">01</div>
                 <div class="card__body">
                   <div class="card__when">
-                    <!-- TODO: e.g. Y2 · Q3 -->
+                    <!-- bv. J2 · Q3  /  Y2 · Q3 -->
                   </div>
                   <h3 class="card__title">
                     <span class="card__title-text">
-                      <!-- TODO: Coursework title -->Coursework title
+                      <span lang="nl">Vaktitel</span>
+                      <span lang="en">Coursework title</span>
                     </span>
                     <span class="card__arrow" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -303,7 +373,8 @@
                     </span>
                   </h3>
                   <p class="card__desc">
-                    <!-- TODO: describe project -->
+                    <span lang="nl"><!-- Beschrijf project --></span>
+                    <span lang="en"><!-- Describe project --></span>
                   </p>
                   <ul class="tags"></ul>
                 </div>
@@ -316,7 +387,10 @@
                 <div class="card__body">
                   <div class="card__when"></div>
                   <h3 class="card__title">
-                    <span class="card__title-text">Coursework title</span>
+                    <span class="card__title-text">
+                      <span lang="nl">Vaktitel</span>
+                      <span lang="en">Coursework title</span>
+                    </span>
                     <span class="card__arrow" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 17 17 7M9 7h8v8"/>
@@ -324,7 +398,8 @@
                     </span>
                   </h3>
                   <p class="card__desc">
-                    <!-- TODO: describe project -->
+                    <span lang="nl"><!-- Beschrijf project --></span>
+                    <span lang="en"><!-- Describe project --></span>
                   </p>
                   <ul class="tags"></ul>
                 </div>
@@ -333,12 +408,19 @@
           </ul>
 
           <footer class="content__footer">
-            <p>
+            <p lang="nl">
               Met de hand gebouwd in HTML, CSS en JS. Gezet in
               <a class="link" href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Fraunces</a>
               en
               <a class="link" href="https://rsms.me/inter/" target="_blank" rel="noopener">Inter</a>.
-              © <span id="year">2026</span> Freek van Rijn.
+              © <span class="year">2026</span> Freek van Rijn.
+            </p>
+            <p lang="en">
+              Hand-built in HTML, CSS, and JS. Typeset in
+              <a class="link" href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Fraunces</a>
+              and
+              <a class="link" href="https://rsms.me/inter/" target="_blank" rel="noopener">Inter</a>.
+              © <span class="year">2026</span> Freek van Rijn.
             </p>
           </footer>
         </section>
