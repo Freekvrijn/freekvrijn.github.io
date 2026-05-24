@@ -1,44 +1,48 @@
 /*
   styles.css — Freek van Rijn
   ---------------------------------------------------------------
-  Sections:
-    1.  TOKENS              — colors, type, spacing (edit here first)
+  Edit COLORS and FONTS in §1 only. Layout is grid-based.
+
+    1.  TOKENS
     2.  RESET / BASE
     3.  TYPOGRAPHY
-    4.  SPOTLIGHT           — cursor-following radial glow
-    5.  LAYOUT              — two-column page
-    6.  SIDEBAR             — name, role, nav, socials
-    7.  CONTENT
-    8.  CARDS               — work + project cards
-    9.  TAGS                — tech stack pills
-    10. PLACEHOLDER         — content-slot markers
-    11. REVEAL ANIMATIONS
-    12. RESPONSIVE
-    13. REDUCED MOTION
+    4.  GRAIN OVERLAY
+    5.  LAYOUT (two-column)
+    6.  SIDEBAR
+    7.  NAV (numbered)
+    8.  NOW (live time)
+    9.  SOCIALS
+    10. CONTENT
+    11. CARDS (with number prefix + left-stripe hover)
+    12. TAGS (slashed mono)
+    13. PLACEHOLDER
+    14. REVEAL ANIMATIONS
+    15. RESPONSIVE
+    16. REDUCED MOTION
 */
 
 /* ── 1. TOKENS ─────────────────────────────────────────────── */
 :root {
-  --bg:           #0a192f;   /* deep navy page background */
-  --bg-card:      #112240;   /* subtle lifted surface on hover */
-  --bg-card-2:    rgba(100, 255, 218, 0.04);
+  /* Warm dark palette — olive charcoal + burnt orange */
+  --bg:           #1a1814;
+  --bg-card:      #232019;
+  --text:         #d6cfbe;
+  --text-bright:  #ebe4d2;
+  --text-mute:    #8e8676;
+  --text-faint:   #5a5246;
 
-  --text:         #ccd6f6;   /* primary body text */
-  --text-bright:  #e6f1ff;   /* headings, on-hover emphasis */
-  --text-mute:    #8892b0;   /* secondary text */
-  --text-faint:   #4a5778;   /* labels, indicator inactive */
+  --accent:        #e87d3e;   /* burnt orange */
+  --accent-school: #8aa39b;   /* sage — secondary, used for school section */
 
-  --accent:       #64ffda;   /* iconic teal */
-  --accent-school: #ff9b6a;  /* warmer accent so coursework reads as different */
+  --rule: rgba(214, 207, 190, 0.12);
 
-  --rule:         rgba(136, 146, 176, 0.18);
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-
-  --gutter: clamp(1.5rem, 4vw, 3rem);
+  --gutter:      clamp(1.5rem, 4vw, 3rem);
   --content-max: 1280px;
-  --measure: 540px;
+  --measure:     540px;
 }
 
 /* ── 2. RESET / BASE ───────────────────────────────────────── */
@@ -66,7 +70,6 @@ a { color: inherit; text-decoration: none; }
 
 ::selection { background: var(--accent); color: var(--bg); }
 
-/* Visually hidden skip link, becomes visible on focus */
 .skip {
   position: absolute;
   left: 1rem; top: 1rem;
@@ -82,10 +85,15 @@ a { color: inherit; text-decoration: none; }
 .skip:focus { transform: translateY(0); }
 
 /* ── 3. TYPOGRAPHY ─────────────────────────────────────────── */
-h1, h2, h3 { font-family: var(--font-sans); font-weight: 600; margin: 0; line-height: 1.2; color: var(--text-bright); }
+h1, h2, h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--text-bright);
+}
 p { margin: 0; }
 
-/* Inline accent link */
 .link {
   color: var(--text-bright);
   font-weight: 500;
@@ -106,25 +114,24 @@ p { margin: 0; }
 .link:hover { color: var(--accent); }
 .link:hover::after { transform: scaleX(1); }
 
-/* ── 4. SPOTLIGHT ──────────────────────────────────────────── */
-.spotlight {
+/* ── 4. GRAIN OVERLAY ──────────────────────────────────────── */
+.grain {
   position: fixed;
-  top: 0; left: 0;
-  width: 600px; height: 600px;
-  margin: -300px 0 0 -300px;
+  inset: 0;
   pointer-events: none;
-  z-index: 1;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgba(29, 78, 216, 0.15),
-    transparent 70%);
-  transform: translate(var(--mx, 50vw), var(--my, 50vh));
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  will-change: transform;
+  z-index: 9999;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'>\
+<filter id='n'>\
+<feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/>\
+<feColorMatrix type='matrix' values='0 0 0 0 0.55  0 0 0 0 0.5  0 0 0 0 0.4  0 0 0 0.45 0'/>\
+</filter>\
+<rect width='100%' height='100%' filter='url(%23n)'/>\
+</svg>");
+  background-size: 220px 220px;
 }
-.spotlight.is-on { opacity: 1; }
 
 /* ── 5. LAYOUT ─────────────────────────────────────────────── */
 .page {
@@ -138,7 +145,7 @@ p { margin: 0; }
 @media (min-width: 1024px) {
   .page {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
     gap: 4rem;
     padding: 0 clamp(1.5rem, 5vw, 6rem);
   }
@@ -146,10 +153,9 @@ p { margin: 0; }
 
 /* ── 6. SIDEBAR ────────────────────────────────────────────── */
 .sidebar {
-  padding: 6rem 0 3rem;
+  padding: 4rem 0 3rem;
   display: flex;
   flex-direction: column;
-  min-height: auto;
 }
 
 @media (min-width: 1024px) {
@@ -163,133 +169,178 @@ p { margin: 0; }
   }
 }
 
+/* Personal mark — tiny label above the name */
+.sidebar__mark {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 1.4rem;
+}
+.sidebar__mark .dot { color: var(--accent); margin: 0 0.4em; }
+
+/* Name — display serif italic, the signature voice of the page */
 .sidebar__name {
-  font-size: clamp(2.5rem, 4vw, 3.25rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 4.2vw, 3.6rem);
   letter-spacing: -0.02em;
   color: var(--text-bright);
-  line-height: 1.05;
-  margin-bottom: 0.6rem;
+  line-height: 1.02;
+  margin-bottom: 0.9rem;
+  font-variation-settings: "opsz" 144;
 }
 .sidebar__name a { color: inherit; }
 
 .sidebar__role {
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
   font-weight: 500;
   color: var(--text);
-  letter-spacing: -0.005em;
   margin-bottom: 1rem;
 }
 
 .sidebar__tagline {
   color: var(--text-mute);
   max-width: 24rem;
-  margin-bottom: 3rem;
-  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  font-size: 0.98rem;
 }
 
-/* In-page nav */
+/* ── 7. NAV ────────────────────────────────────────────────── */
 .sidenav { display: none; }
 @media (min-width: 1024px) {
   .sidenav { display: block; }
 }
 .sidenav ul { list-style: none; padding: 0; margin: 0; }
-.sidenav li + li { margin-top: 0.3rem; }
+.sidenav li + li { margin-top: 0.15rem; }
 
 .sidenav a {
   display: inline-flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.4rem 0;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding: 0.45rem 0;
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-faint);
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-.sidenav__indicator {
-  display: inline-block;
-  width: 28px;
-  height: 1px;
-  background: var(--text-faint);
-  transition: width 0.25s ease, background 0.25s ease;
+.sidenav__num {
+  color: var(--text-faint);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  transition: color 0.2s ease;
+}
+.sidenav__label {
+  transition: color 0.2s ease;
 }
 
 .sidenav a:hover,
 .sidenav a:focus-visible {
   color: var(--text-bright);
+  transform: translateX(6px);
 }
-.sidenav a:hover .sidenav__indicator,
-.sidenav a:focus-visible .sidenav__indicator {
-  width: 56px;
-  background: var(--text-bright);
+.sidenav a:hover .sidenav__num,
+.sidenav a:focus-visible .sidenav__num {
+  color: var(--accent);
 }
 
 .sidenav a.is-active {
   color: var(--text-bright);
+  transform: translateX(6px);
 }
-.sidenav a.is-active .sidenav__indicator {
-  width: 56px;
-  background: var(--text-bright);
+.sidenav a.is-active .sidenav__num { color: var(--accent); }
+
+/* ── 8. NOW (live local time) ──────────────────────────────── */
+.now {
+  margin-top: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.now__dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%      { opacity: 0.45; transform: scale(0.85); }
+}
+@media (min-width: 1024px) {
+  .now { margin-top: auto; padding-top: 2rem; }
 }
 
-/* Socials */
+/* ── 9. SOCIALS ────────────────────────────────────────────── */
 .socials {
   list-style: none;
   padding: 0;
-  margin: 2.5rem 0 0;
+  margin: 1.6rem 0 0;
   display: flex;
-  gap: 1.4rem;
+  gap: 1.2rem;
 }
 @media (min-width: 1024px) {
-  .socials { margin: 0; }
+  .socials { margin-top: 1.4rem; }
 }
 .socials a {
   color: var(--text-mute);
   display: inline-flex;
-  padding: 0.5rem;
-  margin: -0.5rem;
+  padding: 0.4rem;
+  margin: -0.4rem;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 .socials a:hover {
   color: var(--accent);
   transform: translateY(-3px);
 }
-.socials svg { width: 22px; height: 22px; }
+.socials svg { width: 20px; height: 20px; }
 
-/* ── 7. CONTENT ────────────────────────────────────────────── */
-.content {
-  padding: 0 0 6rem;
-}
-@media (min-width: 1024px) {
-  .content { padding: 6rem 0; }
-}
+/* ── 10. CONTENT ───────────────────────────────────────────── */
+.content { padding: 0 0 6rem; }
+@media (min-width: 1024px) { .content { padding: 6rem 0; } }
 
 .content__section {
-  margin-bottom: 6rem;
-  scroll-margin-top: 6rem;
+  margin-bottom: 5.5rem;
+  scroll-margin-top: 5rem;
 }
 .content__section:last-of-type { margin-bottom: 0; }
 
-/* Sticky sub-heading visible only on mobile (desktop hides them
-   because the sidebar nav already labels each section) */
+/* Mobile-only section label: " / about " with slash in accent */
 .content__sticky-heading {
   position: sticky;
   top: 0;
   z-index: 20;
   margin: 0 calc(var(--gutter) * -1) 1.5rem;
-  padding: 1rem var(--gutter);
+  padding: 0.85rem var(--gutter);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
   font-family: var(--font-mono);
   font-size: 0.78rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
   color: var(--text-bright);
-  font-weight: 600;
+  font-weight: 500;
+}
+.content__sticky-heading::before {
+  content: "/ ";
+  color: var(--accent);
+}
+.content__section--school .content__sticky-heading::before {
+  color: var(--accent-school);
 }
 @media (min-width: 1024px) {
   .content__sticky-heading { display: none; }
@@ -297,141 +348,126 @@ p { margin: 0; }
 
 .prose {
   max-width: var(--measure);
-  color: var(--text-mute);
+  color: var(--text);
   font-size: 1.02rem;
 }
 .prose p + p { margin-top: 1rem; }
-.prose a { /* inherits .link via composition if applied */ }
 
 .content__footer {
   margin-top: 5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--rule);
   color: var(--text-faint);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-family: var(--font-mono);
 }
 
-/* ── 8. CARDS ──────────────────────────────────────────────── */
-.card-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+/* ── 11. CARDS ─────────────────────────────────────────────── */
+.card-list { list-style: none; padding: 0; margin: 0; }
+.card-row { margin-bottom: 0.5rem; }
 
-.card-row {
-  padding: 0;
-  margin-bottom: 0.5rem;
-}
-
-/* Card itself — the whole row is a single <a> for one-click navigation */
+/* Whole row is a single <a> so any part of the card navigates.
+   Hover state shows: left accent stripe slides in, title color shifts,
+   arrow nudges up-right. */
 .card {
   position: relative;
   display: grid;
-  grid-template-columns: 130px 1fr;
-  gap: 1.5rem;
-  padding: 1.5rem;
+  grid-template-columns: 56px 1fr;
+  gap: 1.2rem;
+  padding: 1.4rem 1.5rem;
   margin: 0 -1.5rem;
-  border-radius: 8px;
+  border-radius: 6px;
   color: inherit;
-  transition: background 0.25s ease,
-              box-shadow 0.25s ease,
-              transform 0.25s ease;
+  transition: background 0.25s ease, transform 0.25s ease;
   cursor: pointer;
+  overflow: hidden;
 }
 @media (max-width: 720px) {
   .card {
     grid-template-columns: 1fr;
-    padding: 1.25rem;
+    padding: 1.2rem 1.25rem;
     margin: 0 -1.25rem;
-    gap: 0.75rem;
+    gap: 0.4rem;
   }
 }
 
-/* Hover state — subtle lift over the card surface */
+/* Left accent stripe — hidden by default, slides in on hover */
 .card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 1.4rem; bottom: 1.4rem;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.content__section--school .card::before { background: var(--accent-school); }
+.card:hover::before,
+.card:focus-visible::before {
+  transform: scaleY(1);
+}
+
+/* Subtle background fill on hover */
+.card::after {
   content: "";
   position: absolute;
   inset: 0;
   background: var(--bg-card);
-  border-radius: 8px;
+  border-radius: 6px;
   opacity: 0;
   z-index: -1;
   transition: opacity 0.25s ease;
-  box-shadow:
-    inset 0 1px 0 rgba(100, 255, 218, 0.07),
-    0 4px 14px rgba(2, 12, 27, 0.7);
 }
-.card:hover::before,
-.card:focus-visible::before { opacity: 1; }
-.card:hover,
-.card:focus-visible { transform: translateY(-1px); }
+.card:hover::after,
+.card:focus-visible::after { opacity: 1; }
 
-/* When section is school, hovered cards use the school accent */
-.content__section--school .card:hover .card__title-text,
-.content__section--school .card:focus-visible .card__title-text {
-  color: var(--accent-school);
-}
-
-/* Left side — date range for experience, thumb for projects */
-.card__when {
+/* Number prefix — mono, accent on hover */
+.card__number {
   font-family: var(--font-mono);
-  font-size: 0.74rem;
+  font-size: 0.78rem;
+  font-weight: 500;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--text-faint);
-  padding-top: 0.35rem;
-  white-space: nowrap;
+  padding-top: 0.5rem;
+  transition: color 0.2s ease;
 }
-
-.card__thumb {
-  position: relative;
-  width: 130px;
-  height: 80px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid var(--rule);
-  background:
-    radial-gradient(circle at 20% 20%, rgba(100, 255, 218, 0.07), transparent 60%),
-    linear-gradient(135deg, rgba(17, 34, 64, 0.8), rgba(10, 25, 47, 0.8));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.card__thumb img {
-  width: 100%; height: 100%; object-fit: cover;
-}
-.card__thumb-placeholder {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-}
+.card:hover .card__number,
+.card:focus-visible .card__number { color: var(--accent); }
+.content__section--school .card:hover .card__number,
+.content__section--school .card:focus-visible .card__number { color: var(--accent-school); }
 @media (max-width: 720px) {
-  .card__thumb { width: 100%; height: 110px; }
+  .card__number { padding-top: 0; }
 }
 
 .card__body { min-width: 0; }
+
+.card__when {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.6rem;
+}
+.card__when:empty { display: none; }
 
 .card__title {
   display: flex;
   align-items: baseline;
   gap: 0.4rem;
   flex-wrap: wrap;
-  margin-bottom: 0.35rem;
-  font-size: 1.02rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.08rem;
   font-weight: 600;
   color: var(--text-bright);
   line-height: 1.35;
 }
-.card__title-text {
-  transition: color 0.2s ease;
-}
+.card__title-text { transition: color 0.2s ease; }
 .card:hover .card__title-text,
-.card:focus-visible .card__title-text {
-  color: var(--accent);
-}
+.card:focus-visible .card__title-text { color: var(--accent); }
+.content__section--school .card:hover .card__title-text,
+.content__section--school .card:focus-visible .card__title-text { color: var(--accent-school); }
 .card__sep { color: var(--text-faint); margin: 0 0.15rem; font-weight: 400; }
 
 .card__arrow {
@@ -446,15 +482,6 @@ p { margin: 0; }
   transform: translate(3px, -3px);
 }
 
-.card__sub {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--text-mute);
-  margin-bottom: 0.5rem;
-  min-height: 0;
-}
-.card__sub:empty { display: none; }
-
 .card__desc {
   color: var(--text-mute);
   font-size: 0.95rem;
@@ -463,32 +490,32 @@ p { margin: 0; }
   min-height: 1em;
 }
 
-/* ── 9. TAGS ───────────────────────────────────────────────── */
+/* ── 12. TAGS — slashed mono text instead of pills ─────────── */
 .tags {
   list-style: none;
   padding: 0;
   margin: 0.85rem 0 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-mute);
+  letter-spacing: 0.04em;
 }
 .tags:empty { display: none; }
-.tags li {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  padding: 0.25rem 0.7rem;
-  border-radius: 999px;
-  background: rgba(100, 255, 218, 0.1);
+.tags li { display: inline; }
+.tags li:not(:first-child)::before {
+  content: " / ";
   color: var(--accent);
-  line-height: 1.4;
+  margin: 0 0.55em;
+  font-weight: 500;
 }
-.content__section--school .tags li {
-  background: rgba(255, 155, 106, 0.1);
+.content__section--school .tags li:not(:first-child)::before {
   color: var(--accent-school);
 }
 
-/* ── 10. PLACEHOLDER ───────────────────────────────────────── */
+/* ── 13. PLACEHOLDER ───────────────────────────────────────── */
 .placeholder {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -497,12 +524,12 @@ p { margin: 0; }
   padding: 0.15em 0.55em;
   border: 1px dashed var(--accent);
   border-radius: 4px;
-  background: rgba(100, 255, 218, 0.06);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
   display: inline-block;
   vertical-align: middle;
 }
 
-/* ── 11. REVEAL ANIMATIONS ─────────────────────────────────── */
+/* ── 14. REVEAL ANIMATIONS ─────────────────────────────────── */
 [data-reveal] {
   opacity: 0;
   transform: translateY(18px);
@@ -516,19 +543,18 @@ p { margin: 0; }
   transform: translateY(0);
 }
 
-/* ── 12. RESPONSIVE ────────────────────────────────────────── */
+/* ── 15. RESPONSIVE ────────────────────────────────────────── */
 @media (max-width: 1023px) {
-  .sidebar { padding: 4rem 0 2rem; }
+  .sidebar { padding: 3.5rem 0 2rem; }
   .sidebar__tagline { margin-bottom: 1rem; }
   .content { padding-top: 0; }
 }
-
 @media (max-width: 540px) {
-  .sidebar { padding: 3rem 0 1.5rem; }
+  .sidebar { padding: 2.5rem 0 1.5rem; }
   .card { padding: 1rem; margin: 0 -1rem; }
 }
 
-/* ── 13. REDUCED MOTION ────────────────────────────────────── */
+/* ── 16. REDUCED MOTION ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -537,4 +563,5 @@ p { margin: 0; }
     transition-duration: 0.01ms !important;
   }
   [data-reveal] { opacity: 1; transform: none; }
+  .now__dot { animation: none; }
 }

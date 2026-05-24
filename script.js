@@ -1,10 +1,9 @@
 /*
   script.js — Freek van Rijn
   ---------------------------------------------------------------
-  1. Footer year.
-  2. Cursor-following spotlight (desktop only).
-  3. Reveal on scroll for [data-reveal] (first reveal only).
-  4. Sidebar nav: highlight the link for the section currently in view.
+  1. Footer year + live local time (Netherlands).
+  2. Reveal on scroll for [data-reveal] (first reveal only).
+  3. Sidebar nav: highlight the link for the section currently in view.
 */
 
 (() => {
@@ -13,41 +12,28 @@
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
-  const isTouch =
-    window.matchMedia("(hover: none)").matches || "ontouchstart" in window;
 
-  /* 1. Footer year */
+  /* 1. Year + live time */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  /* 2. Spotlight — soft radial glow that trails the pointer */
-  const spotlight = document.querySelector(".spotlight");
-  if (spotlight && !isTouch && !prefersReducedMotion) {
-    let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight / 2;
-    let currentX = targetX;
-    let currentY = targetY;
-
-    document.addEventListener("pointermove", (e) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
-      spotlight.classList.add("is-on");
+  const timeEl = document.getElementById("now-time");
+  if (timeEl) {
+    const fmt = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Amsterdam",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     });
-    document.addEventListener("pointerleave", () => {
-      spotlight.classList.remove("is-on");
-    });
-
-    const tick = () => {
-      currentX += (targetX - currentX) * 0.18;
-      currentY += (targetY - currentY) * 0.18;
-      spotlight.style.setProperty("--mx", currentX + "px");
-      spotlight.style.setProperty("--my", currentY + "px");
-      requestAnimationFrame(tick);
+    const update = () => {
+      timeEl.textContent = fmt.format(new Date());
     };
-    requestAnimationFrame(tick);
+    update();
+    // Update at the top of every minute (and again every 30s as a safety).
+    setInterval(update, 30 * 1000);
   }
 
-  /* 3. Reveal on scroll */
+  /* 2. Reveal on scroll */
   const revealEls = document.querySelectorAll("[data-reveal]");
   if (prefersReducedMotion || !("IntersectionObserver" in window)) {
     revealEls.forEach((el) => el.classList.add("is-in"));
@@ -71,9 +57,7 @@
     revealEls.forEach((el) => io.observe(el));
   }
 
-  /* 4. Active-section indicator in sidebar nav
-     Whichever section is most prominently in view gets its nav link
-     highlighted. Uses IntersectionObserver with a tall middle band. */
+  /* 3. Active-section indicator in sidebar nav */
   const sections = Array.from(document.querySelectorAll("section[id]"));
   const navLinks = new Map();
   document.querySelectorAll("[data-nav]").forEach((a) => {
@@ -88,8 +72,6 @@
       });
     };
 
-    // Track visibility of each section; pick the one with the largest
-    // intersection ratio that's currently in view.
     const visibility = new Map();
     const navIO = new IntersectionObserver(
       (entries) => {
@@ -104,8 +86,6 @@
         if (bestId) setActive(bestId);
       },
       {
-        // Tall band around the vertical centre so the active link only
-        // changes when a new section is clearly the one being read.
         rootMargin: "-30% 0px -55% 0px",
         threshold: [0, 0.25, 0.5, 0.75, 1],
       }
