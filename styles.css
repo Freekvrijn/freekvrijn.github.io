@@ -95,6 +95,23 @@ p { margin: 0; }
   color: var(--ink-2);
 }
 
+/* Placeholder spans — visible as "fill me in" markers, not as content.
+   Wrap any text the user must replace in <span class="placeholder">…</span>.
+   Once replaced, remove the wrapping span entirely. */
+.placeholder {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  padding: 0.15em 0.45em;
+  border: 1px dashed var(--rule);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--paper-2) 60%, transparent);
+  vertical-align: middle;
+  display: inline-block;
+}
+
 /* ── 4. GRAIN OVERLAY ──────────────────────────────────────── */
 /* Fixed SVG noise above content. Subtle — paper texture, not effect. */
 .grain {

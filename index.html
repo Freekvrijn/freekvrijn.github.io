@@ -11,9 +11,9 @@
     §6  CONTACT           — email, GitHub, LinkedIn
 
   Placeholders to fill in:
-    {{TAGLINE_HERE}}        — one-line description of what you do
-    {{WRITE_BIO_HERE}}      — about paragraph
-    <!-- TODO: ... -->      — content slots inside templates
+    {{TAGLINE_HERE}}      one-line description of what you do
+    {{WRITE_BIO_HERE}}    about paragraph
+    TODO comments inside templates mark content slots
 
   Add new entries by duplicating the marked template blocks.
 -->
@@ -72,7 +72,7 @@
         </h1>
 
         <p class="hero__tagline reveal" data-reveal data-reveal-delay="180">
-          {{TAGLINE_HERE}}
+          <span class="placeholder">{{TAGLINE_HERE}}</span>
         </p>
 
         <div class="hero__footer">
@@ -107,7 +107,7 @@
         </header>
 
         <div class="section__body about-body" data-reveal data-reveal-delay="100">
-          <p class="lede">{{WRITE_BIO_HERE}}</p>
+          <p class="lede"><span class="placeholder">{{WRITE_BIO_HERE}}</span></p>
 
           <!-- Optional second paragraph. Delete if not needed. -->
           <!-- <p>{{WRITE_BIO_HERE_PARAGRAPH_TWO}}</p> -->
