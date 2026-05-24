@@ -39,8 +39,16 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Grain overlay — the one distinctive detail. Sits above everything,
-         non-interactive, fixed. Defined in CSS via an SVG turbulence filter. -->
+    <!-- FX layer: floating colored blobs in the background, a cursor-following
+         glow on top, and a grain overlay above everything. All non-interactive. -->
+    <div class="blobs" aria-hidden="true">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="blob blob--3"></div>
+      <div class="blob blob--4"></div>
+      <div class="blob blob--5"></div>
+    </div>
+    <div class="cursor-glow" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
 
     <!-- Top bar — minimal, just a wordmark and a couple of in-page anchors. -->
