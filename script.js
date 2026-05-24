@@ -9,7 +9,6 @@
   6. Scroll-progress bar (top-of-page).
   7. Hero parallax (name drifts slowly upward as you scroll).
   8. Project-card 3D tilt (desktop, on pointer move).
-  9. Theme toggle (dark / light, remembered in localStorage).
 */
 
 (() => {
@@ -146,20 +145,4 @@
     });
   }
 
-  /* 9. Theme toggle
-     Theme is already set on <html> by the inline script in <head>
-     (reads localStorage or prefers-color-scheme). Here we just wire the
-     button to flip it and persist the new choice. */
-  const themeBtn = document.querySelector(".theme-toggle");
-  if (themeBtn) {
-    themeBtn.addEventListener("click", () => {
-      const root = document.documentElement;
-      const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-      const next = current === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try {
-        localStorage.setItem("theme", next);
-      } catch (e) {}
-    });
-  }
 })();

@@ -22,32 +22,12 @@
 
 /* ── 1. TOKENS ─────────────────────────────────────────────── */
 :root {
-  /* Light theme — cream paper */
-  --paper:    #f6f1e8;
-  --paper-2:  #ece4d4;
-  --ink:      #181614;
-  --ink-2:    #5b554d;
-  --rule:     #d8d0bd;
-  --blob-blend: multiply;
-  --blob-opacity: 0.55;
-  --grain-blend: multiply;
-  --grain-opacity: 0.28;
-  --glow-blend: multiply;
-}
-
-/* Dark theme — toggled via [data-theme="dark"] on <html> */
-[data-theme="dark"] {
-  --paper:    #0e0b08;
-  --paper-2:  #1a1410;
-  --ink:      #f6f1e8;
-  --ink-2:    #9a9080;
-  --rule:     #2a2218;
-  --blob-blend: screen;
-  --blob-opacity: 0.45;
-  --grain-blend: overlay;
-  --grain-opacity: 0.18;
-  --glow-blend: screen;
-}
+  /* Dark theme — cream ink on warm-black paper */
+  --paper:    #0e0b08;   /* page background */
+  --paper-2:  #1a1410;   /* slightly lifted surface (school block) */
+  --ink:      #f6f1e8;   /* primary text + bold borders */
+  --ink-2:    #9a9080;   /* muted text */
+  --rule:     #2a2218;   /* hairlines */
 
   /* Bold palette — used hard, not subtly */
   --c-magenta: #ff2e63;
@@ -156,7 +136,7 @@ p { margin: 0; }
   opacity: 0;
   transform: translate(var(--mx, 50vw), var(--my, 50vh));
   transition: opacity 0.4s ease;
-  mix-blend-mode: var(--glow-blend);
+  mix-blend-mode: screen;
   will-change: transform;
 }
 .cursor-glow.is-on { opacity: 1; }
@@ -175,10 +155,9 @@ p { margin: 0; }
   height: 60vmin;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: var(--blob-opacity);
-  mix-blend-mode: var(--blob-blend);
+  opacity: 0.45;
+  mix-blend-mode: screen;
   will-change: transform;
-  transition: opacity 0.4s ease;
 }
 .blob--1 {
   background: var(--c-magenta);
@@ -225,8 +204,8 @@ p { margin: 0; }
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: var(--grain-opacity);
-  mix-blend-mode: var(--grain-blend);
+  opacity: 0.18;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'>\
 <filter id='n'>\
@@ -315,34 +294,6 @@ main, .topbar, .footer { position: relative; z-index: 3; }
 }
 
 .topnav { display: flex; gap: 1.4rem; align-items: center; }
-
-/* Theme toggle button — sun/moon morph, lives at the end of the topnav. */
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px; height: 32px;
-  border: 1.5px solid var(--ink);
-  border-radius: 50%;
-  background: var(--paper);
-  cursor: pointer;
-  padding: 0;
-  color: var(--ink);
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-}
-.theme-toggle:hover {
-  background: var(--c-yellow);
-  transform: rotate(20deg);
-}
-[data-theme="dark"] .theme-toggle:hover {
-  background: var(--c-violet);
-  color: var(--paper);
-}
-.theme-toggle svg { width: 16px; height: 16px; }
-.theme-toggle .icon-sun  { display: none; }
-.theme-toggle .icon-moon { display: block; }
-[data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
-[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 .topnav a {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -778,10 +729,10 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   list-style: none;
   padding: 1.8rem 2rem;
   margin: 0;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper-2);
+  color: var(--ink);
   border-radius: 18px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--c-violet);
   box-shadow: 8px 8px 0 var(--c-violet);
 }
 
@@ -790,7 +741,7 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   grid-template-columns: 7rem 1fr;
   gap: 1.5rem;
   padding: 1.2rem 0;
-  border-top: 1px dashed color-mix(in srgb, var(--paper) 30%, transparent);
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 25%, transparent);
 }
 .school-item:first-child { border-top: 0; padding-top: 0.3rem; }
 .school-item:last-child  { padding-bottom: 0.3rem; }
@@ -806,11 +757,11 @@ main, .topbar, .footer { position: relative; z-index: 3; }
   font-size: 1.25rem;
   font-weight: 400;
   margin-bottom: 0.25rem;
-  color: var(--paper);
+  color: var(--ink);
   min-height: 1em;
 }
 .school-item__blurb {
-  color: color-mix(in srgb, var(--paper) 75%, transparent);
+  color: var(--ink-2);
   font-size: 0.95rem;
   max-width: var(--measure);
 }
