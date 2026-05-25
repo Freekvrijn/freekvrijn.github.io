@@ -59,19 +59,19 @@
       <span lang="en">Skip to content</span>
     </a>
 
+    <!-- Taal-toggle — vast top-right, altijd bereikbaar, bewaard in localStorage -->
+    <div class="lang-toggle" role="group" aria-label="Taal" data-aria-nl="Taal" data-aria-en="Language">
+      <button type="button" class="lang-toggle__btn" data-lang-set="nl" aria-pressed="true">NL</button>
+      <span class="lang-toggle__sep" aria-hidden="true">/</span>
+      <button type="button" class="lang-toggle__btn" data-lang-set="en" aria-pressed="false">EN</button>
+    </div>
+
     <div class="page">
       <!-- ════════════════════════════════════════════════════════════
            SIDEBAR — sticky on desktop
            ════════════════════════════════════════════════════════════ -->
       <header class="sidebar">
         <div class="sidebar__top">
-          <!-- Taal-toggle — schakelt tussen NL en EN, bewaard in localStorage -->
-          <div class="lang-toggle" role="group" aria-label="Taal" data-aria-nl="Taal" data-aria-en="Language">
-            <button type="button" class="lang-toggle__btn" data-lang-set="nl" aria-pressed="true">NL</button>
-            <span class="lang-toggle__sep" aria-hidden="true">/</span>
-            <button type="button" class="lang-toggle__btn" data-lang-set="en" aria-pressed="false">EN</button>
-          </div>
-
           <a class="avatar" href="/" aria-label="Freek van Rijn">
             <img src="avatar.jpg" alt="Portretfoto van Freek van Rijn" width="96" height="96" />
           </a>
@@ -129,15 +129,6 @@
         </div>
 
         <div class="sidebar__bottom">
-          <p class="now" aria-live="polite">
-            <span class="now__dot" aria-hidden="true"></span>
-            <span>
-              <span id="now-time">--:--</span> ·
-              <span lang="nl">Nederland</span>
-              <span lang="en">Netherlands</span>
-            </span>
-          </p>
-
           <ul class="socials" aria-label="Sociale links" data-aria-nl="Sociale links" data-aria-en="Social links">
             <li>
               <a href="https://github.com/Freekvrijn" target="_blank" rel="noopener" aria-label="GitHub">

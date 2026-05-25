@@ -2,7 +2,7 @@
   script.js — Freek van Rijn
   ---------------------------------------------------------------
   1. Taal-toggle (NL/EN) — bewaard in localStorage, default NL.
-  2. Footer year + live local time (Netherlands).
+  2. Footer year.
   3. Reveal on scroll for [data-reveal] (first reveal only).
   4. Sidebar nav: highlight the link for the section currently in view.
 */
@@ -57,26 +57,10 @@
     });
   });
 
-  /* 2. Year + live time */
+  /* 2. Year */
   document.querySelectorAll(".year").forEach((el) => {
     el.textContent = String(new Date().getFullYear());
   });
-
-  const timeEl = document.getElementById("now-time");
-  if (timeEl) {
-    const fmt = new Intl.DateTimeFormat("nl-NL", {
-      timeZone: "Europe/Amsterdam",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-    const update = () => {
-      timeEl.textContent = fmt.format(new Date());
-    };
-    update();
-    // Update at the top of every minute (and again every 30s as a safety).
-    setInterval(update, 30 * 1000);
-  }
 
   /* 3. Reveal on scroll */
   const revealEls = document.querySelectorAll("[data-reveal]");
