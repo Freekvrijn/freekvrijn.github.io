@@ -485,6 +485,8 @@ html[data-lang="en"] body [lang="nl"] { display: none; }
   .card__number { padding-top: 0; }
 }
 
+.card--static { cursor: default; }
+
 .card__body { min-width: 0; }
 
 .card__when {
