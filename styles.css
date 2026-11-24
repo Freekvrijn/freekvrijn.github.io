@@ -297,39 +297,16 @@ html[data-lang="en"] body [lang="nl"] { display: none; }
 .sidenav li + li { margin-top: 0.15rem; }
 
 .sidenav a {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.9rem;
+  display: inline-block;
   padding: 0.45rem 0;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-faint);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--text-mute);
   transition: color 0.2s ease;
 }
-
-.sidenav__num {
-  color: var(--text-faint);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  transition: color 0.2s ease;
-}
-.sidenav__label {
-  transition: color 0.2s ease;
-}
-
 .sidenav a:hover,
-.sidenav a:focus-visible {
-  color: var(--text-bright);
-}
-.sidenav a:hover .sidenav__num,
-.sidenav a:focus-visible .sidenav__num {
-  color: var(--accent);
-}
-
-.sidenav a.is-active { color: var(--text-bright); }
-.sidenav a.is-active .sidenav__num { color: var(--accent); }
+.sidenav a:focus-visible { color: var(--text-bright); }
+.sidenav a.is-active { color: var(--accent); font-weight: 600; }
 
 /* ── 9. SOCIALS ────────────────────────────────────────────── */
 .socials {
@@ -363,32 +340,15 @@ html[data-lang="en"] body [lang="nl"] { display: none; }
 }
 .content__section:last-of-type { margin-bottom: 0; }
 
-/* Mobile-only section label: " / about " with slash in accent */
-.content__sticky-heading {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  margin: 0 calc(var(--gutter) * -1) 1.5rem;
-  padding: 0.85rem var(--gutter);
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  text-transform: lowercase;
+/* Visible section headings on every screen size. */
+.content__heading {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.025em;
   color: var(--text-bright);
-  font-weight: 500;
-}
-.content__sticky-heading::before {
-  content: "/ ";
-  color: var(--accent);
-}
-.content__section--school .content__sticky-heading::before {
-  color: var(--accent-school);
-}
-@media (min-width: 1024px) {
-  .content__sticky-heading { display: none; }
 }
 
 .prose {
@@ -416,9 +376,7 @@ html[data-lang="en"] body [lang="nl"] { display: none; }
    arrow nudges up-right. */
 .card {
   position: relative;
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 1.2rem;
+  display: block;
   padding: 1.4rem 1.5rem;
   margin: 0 -1.5rem;
   border-radius: 6px;
@@ -429,10 +387,8 @@ html[data-lang="en"] body [lang="nl"] { display: none; }
 }
 @media (max-width: 720px) {
   .card {
-    grid-template-columns: 1fr;
     padding: 1.2rem 1.25rem;
     margin: 0 -1.25rem;
-    gap: 0.4rem;
   }
 }
 
@@ -466,24 +422,6 @@ html[data-lang="en"] body [lang="nl"] { display: none; }
 }
 .card:hover::after,
 .card:focus-visible::after { opacity: 1; }
-
-/* Number prefix — mono, accent on hover */
-.card__number {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  padding-top: 0.5rem;
-  transition: color 0.2s ease;
-}
-.card:hover .card__number,
-.card:focus-visible .card__number { color: var(--accent); }
-.content__section--school .card:hover .card__number,
-.content__section--school .card:focus-visible .card__number { color: var(--accent-school); }
-@media (max-width: 720px) {
-  .card__number { padding-top: 0; }
-}
 
 .card--static { cursor: default; }
 
@@ -531,7 +469,7 @@ html[data-lang="en"] body [lang="nl"] { display: none; }
 
 .card__desc {
   color: var(--text-mute);
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.55;
   max-width: 36rem;
   min-height: 1em;

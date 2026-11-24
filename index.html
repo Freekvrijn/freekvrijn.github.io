@@ -13,9 +13,9 @@
     element; de JS zet aria-label bij het wisselen van taal.
 
   Layout: sticky sidebar links + scrollende content rechts.
-    LINKS  — taaltoggle, avatar, naam, rol, genummerde nav,
+    LINKS  — taaltoggle, avatar, naam, rol, navigatie,
              live tijd, social icons.
-    RECHTS — §1 Over  §2 Ervaring  §3 School
+    RECHTS — Over, Ervaring, School
 
   Cards: vul per card BEIDE talen in (NL én EN spans).
 -->
@@ -48,7 +48,7 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=ccab32756e93" />
+    <link rel="stylesheet" href="styles.css?v=16f91c575d54" />
   </head>
   <body>
     <!-- Subtle grain overlay, fixed above content but non-interactive. -->
@@ -93,7 +93,6 @@
             <ul>
               <li>
                 <a href="#about" data-nav>
-                  <span class="sidenav__num">01</span>
                   <span class="sidenav__label">
                     <span lang="nl">Over</span>
                     <span lang="en">About</span>
@@ -102,7 +101,6 @@
               </li>
               <li>
                 <a href="#experience" data-nav>
-                  <span class="sidenav__num">02</span>
                   <span class="sidenav__label">
                     <span lang="nl">Ervaring</span>
                     <span lang="en">Experience</span>
@@ -111,7 +109,6 @@
               </li>
               <li>
                 <a href="#school" data-nav>
-                  <span class="sidenav__num">03</span>
                   <span class="sidenav__label">School</span>
                 </a>
               </li>
@@ -155,9 +152,9 @@
       <main class="content">
         <!-- §1 OVER / ABOUT -->
         <section id="about" class="content__section" aria-labelledby="about-h">
-          <h2 class="content__sticky-heading" id="about-h">
-            <span lang="nl">over</span>
-            <span lang="en">about</span>
+          <h2 class="content__heading" id="about-h">
+            <span lang="nl">Over mij</span>
+            <span lang="en">About me</span>
           </h2>
           <div class="prose">
             <p lang="nl">
@@ -185,15 +182,14 @@
 
         <!-- Ervaring / Experience -->
         <section id="experience" class="content__section" aria-labelledby="experience-h">
-          <h2 class="content__sticky-heading" id="experience-h">
-            <span lang="nl">ervaring</span>
-            <span lang="en">experience</span>
+          <h2 class="content__heading" id="experience-h">
+            <span lang="nl">Ervaring</span>
+            <span lang="en">Experience</span>
           </h2>
 
           <ol class="card-list">
             <li class="card-row">
               <article class="card card--static">
-                <div class="card__number">01</div>
                 <div class="card__body">
                   <div class="card__when">
                     <span lang="nl">Oktober 2026 tot heden · Parttime</span>
@@ -217,7 +213,6 @@
 
             <li class="card-row">
               <article class="card card--static">
-                <div class="card__number">02</div>
                 <div class="card__body">
                   <div class="card__when">
                     <span lang="nl">Februari tot oktober 2026 · Parttime</span>
@@ -241,7 +236,6 @@
 
             <li class="card-row">
               <article class="card card--static">
-                <div class="card__number">03</div>
                 <div class="card__body">
                   <div class="card__when">
                     <span lang="nl">September 2025 tot januari 2026 · Stage</span>
@@ -265,7 +259,6 @@
 
             <li class="card-row">
               <article class="card card--static">
-                <div class="card__number">04</div>
                 <div class="card__body">
                   <div class="card__when">
                     <span lang="nl">September 2022 tot maart 2025</span>
@@ -292,12 +285,11 @@
 
         <!-- School -->
         <section id="school" class="content__section content__section--school" aria-labelledby="school-h">
-          <h2 class="content__sticky-heading" id="school-h">school</h2>
+          <h2 class="content__heading" id="school-h">School</h2>
 
           <ul class="card-list">
             <li class="card-row">
               <article class="card card--static">
-                <div class="card__number">01</div>
                 <div class="card__body">
                   <div class="card__when">
                     <span lang="nl">2022 tot heden</span>
@@ -322,7 +314,6 @@
 
             <li class="card-row">
               <a class="card" href="/mindsetandgrowth/">
-                <div class="card__number">02</div>
                 <div class="card__body">
                   <div class="card__when">
                     <span lang="nl">2026 · Minor</span>
